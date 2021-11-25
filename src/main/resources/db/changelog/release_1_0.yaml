@@ -1,0 +1,35 @@
+databaseChangeLog:
+  - changeSet:
+      id: projectGenerationTaskTableCreation
+      author: gsaukov
+      changes:
+        - createTable:
+            tableName: PROJECT_GENERATION_TASK
+            columns:
+              - column:
+                  name: ID
+                  type: varchar(64)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: NAME
+                  type: varchar(128)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: STORAGE_LOCATION
+                  type: varchar(512)
+                  remarks: "Storage location URl"
+              - column:
+                  name: CREATION_DATE
+                  type: DATE
+                  valueDate: current_datetime
+                  constraints:
+                    nullable: false
+        - createIndex:
+            indexName: IDX_PROJECT_GENERATION_TASK_NAME
+            tableName: PROJECT_GENERATION_TASK
+            columns:
+              - column:
+                  name: NAME
