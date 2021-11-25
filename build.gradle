@@ -1,0 +1,38 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '2.6.0'
+}
+
+apply plugin: "java"
+apply plugin: "org.springframework.boot"
+apply plugin: "io.spring.dependency-management"
+
+group 'com.cln.tskmngr'
+version "${appVersion}"
+sourceCompatibility = "${javaVersion}"
+targetCompatibility = "${javaVersion}"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile "org.springframework.boot:spring-boot-starter-actuator"
+    compile "org.springframework.boot:spring-boot-starter-web"
+    compile "org.springframework.boot:spring-boot-starter-data-jpa"
+    
+    testCompile "org.springframework.boot:spring-boot-starter-test"
+    testCompile "org.testng:testng:${testngVersion}"
+}
+
+task testng(type: Test) {
+    useTestNG()
+}
+
+bootJar {
+    archiveFileName = "CLN-TASK-MANAGER.jar" //versionless jar. For versions and artifactory use pipeline.
+}
+
+jar {
+    enabled = false
+}
