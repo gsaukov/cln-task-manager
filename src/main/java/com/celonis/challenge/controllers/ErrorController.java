@@ -20,7 +20,6 @@ public class ErrorController {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    @ResponseBody
     @ExceptionHandler({MethodArgumentNotValidException.class})
     public ResponseEntity<ErrorResponse> handleValidationExceptions(MethodArgumentNotValidException e) {
         ErrorResponse response = new ErrorResponse();
@@ -30,7 +29,6 @@ public class ErrorController {
         return response.getResponse(HttpStatus.BAD_REQUEST);
     }
 
-    @ResponseBody
     @ExceptionHandler(NoSuchElementException.class)
     public ResponseEntity<ErrorResponse> handleNotFound() {
         logger.warn("Entity not found");
@@ -38,7 +36,6 @@ public class ErrorController {
                 .getResponse(HttpStatus.NOT_FOUND);
     }
 
-    @ResponseBody
     @ExceptionHandler(IllegalStateException.class)
     public ResponseEntity<ErrorResponse> handleInternalException(IllegalStateException e) {
         logger.error("Illegal processing state", e);
@@ -46,7 +43,6 @@ public class ErrorController {
                 .getResponse(HttpStatus.NOT_ACCEPTABLE);
     }
 
-    @ResponseBody
     @ExceptionHandler(TaskExecutionException.class)
     public ResponseEntity<ErrorResponse> handleTaskExecutionException(TaskExecutionException e) {
         logger.error("Task Execution Exception", e);
@@ -54,7 +50,6 @@ public class ErrorController {
                 .getResponse(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @ResponseBody
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleException(Exception e) {
         logger.error("Unhandled Exception", e);
