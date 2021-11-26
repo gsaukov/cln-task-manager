@@ -1,6 +1,6 @@
 package com.celonis.challenge.controllers;
 
-import com.celonis.challenge.exceptions.InternalException;
+import com.celonis.challenge.exceptions.TaskExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -47,10 +47,10 @@ public class ErrorController {
     }
 
     @ResponseBody
-    @ExceptionHandler(InternalException.class)
-    public ResponseEntity<ErrorResponse> handleInternalException(InternalException e) {
-        logger.error("Internal Processing Exception", e);
-        return new ErrorResponse().addError("Internal Processing Exception")
+    @ExceptionHandler(TaskExecutionException.class)
+    public ResponseEntity<ErrorResponse> handleTaskExecutionException(TaskExecutionException e) {
+        logger.error("Task Execution Exception", e);
+        return new ErrorResponse().addError("Task Execution Exception").addError(e.getMessage())
                 .getResponse(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 

@@ -1,6 +1,6 @@
 package com.celonis.challenge.services.projectgeneration;
 
-import com.celonis.challenge.exceptions.InternalException;
+import com.celonis.challenge.exceptions.TaskExecutionException;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Service;
@@ -30,7 +30,7 @@ public class FileService {
             IOUtils.copy(is, os);
             return outputFile.getAbsolutePath();
         } catch (IOException e) {
-            throw new InternalException("File creation failed", e);
+            throw new TaskExecutionException("Task File creation failed", e);
         }
     }
 
@@ -40,14 +40,14 @@ public class FileService {
             outputFile.deleteOnExit();
             return outputFile;
         } catch (IOException e) {
-            throw new InternalException("File creation failed", e);
+            throw new TaskExecutionException("Task File creation failed", e);
         }
     }
 
     private URL getSourceFileUrl() {
         URL url = Thread.currentThread().getContextClassLoader().getResource(CHALLENGE_ZIP);
         if (url == null) {
-            throw new InternalException("Zip file not found");
+            throw new TaskExecutionException("Zip file not found");
         } else {
             return url;
         }
