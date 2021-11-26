@@ -1,0 +1,17 @@
+#### TEST YAML
+#@SpringBootTest loads full application context, exactly like how you start a Spring container when you run your Spring Boot application.
+#
+#@WebMvcTest loads only the web layer, which includes security, filter, interceptors, etc for handling request/response. Typically you would write tests for methods under @Controller or @RestController.
+#
+#@DataJpaTest loads only configuration for JPA. It uses an embedded in-memory h2 if not specified otherwise.
+
+spring:
+  application:
+    name: cln-task-manager
+  liquibase:
+    enabled: false
+
+clnTaskManager:
+  h2Enabled: false
+  cors.allowedOrigin: "*"
+
