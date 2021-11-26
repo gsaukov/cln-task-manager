@@ -27,11 +27,10 @@ public class ProjectGenerationTask {
     private Date creationDate;
 
     @JsonIgnore
-    @Column(name = "CO2_EMISSION")
+    @Column(name = "STORAGE_LOCATION")
     private String storageLocation;
 
     public String getId() {
-        org.hibernate.id.UUIDGenerator ul;
         return id;
     }
 

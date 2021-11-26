@@ -6,3 +6,6 @@ Development road map for existing task manager (ETM):
 3. Cover with ETM with unit and component tests.
 4. Introduce database managed concurrency (OPTIMISTIC locking).
 5. Review and consolidate code under same style.
+
+
+Date should be stored as Local Date

@@ -25,7 +25,7 @@ public class TaskController {
         return taskService.listTasks();
     }
 
-    @PutMapping("/")
+    @PostMapping("/")
     public ProjectGenerationTask createTask(@RequestBody @Valid ProjectGenerationTask projectGenerationTask) {
         return taskService.createTask(projectGenerationTask);
     }
@@ -35,7 +35,7 @@ public class TaskController {
         return taskService.getTask(taskId);
     }
 
-    @PostMapping("/{taskId}")
+    @PutMapping(path = "/{taskId}")
     public ProjectGenerationTask updateTask(@PathVariable String taskId,
                                             @RequestBody @Valid ProjectGenerationTask projectGenerationTask) {
         return taskService.update(taskId, projectGenerationTask);

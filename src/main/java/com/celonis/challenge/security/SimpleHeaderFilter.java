@@ -26,12 +26,12 @@ public class SimpleHeaderFilter extends OncePerRequestFilter {
             return;
         }
 
-        String val = request.getHeader(HEADER_NAME);
-        if (val == null || !val.equals(HEADER_VALUE)) {
-            response.setStatus(401);
-            response.getWriter().append("Not authorized");
-            return;
-        }
+//        String val = request.getHeader(HEADER_NAME);
+//        if (val == null || !val.equals(HEADER_VALUE)) {
+//            response.setStatus(401);
+//            response.getWriter().append("Not authorized");
+//            return;
+//        }
         filterChain.doFilter(request, response);
     }
 }

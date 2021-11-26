@@ -42,20 +42,20 @@ public class TaskService {
     }
 
     public ProjectGenerationTask createTask(ProjectGenerationTask projectGenerationTask) {
-        projectGenerationTask.setId(null);
+        projectGenerationTask.setId(null); // why?
         projectGenerationTask.setCreationDate(new Date());
         return projectGenerationTaskRepository.save(projectGenerationTask);
     }
 
-    public ProjectGenerationTask update(String taskId, ProjectGenerationTask newTask) {
+    public ProjectGenerationTask update(String taskId, ProjectGenerationTask updateTask) {
         ProjectGenerationTask existingTask = getTask(taskId);
-        existingTask.setCreationDate(newTask.getCreationDate());
-        existingTask.setName(newTask.getName());
+        existingTask.setCreationDate(updateTask.getCreationDate()); //what if null
+        existingTask.setName(updateTask.getName()); //what if null
         return existingTask;
     }
 
     public void delete(String taskId) {
-        projectGenerationTaskRepository.deleteById(taskId);
+        projectGenerationTaskRepository.deleteById(getTask(taskId).getId());
     }
 
     public void executeTask(String taskId) {
@@ -65,7 +65,7 @@ public class TaskService {
     }
 
     public ResponseEntity<FileSystemResource> getTaskResultFile(String taskId) {
-        ProjectGenerationTask task = projectGenerationTaskRepository.getById(taskId);
+        ProjectGenerationTask task = getTask(taskId);
         FileSystemResource resource = fileService.getFileFromStorage(task.getStorageLocation());
         return prepareFileResponse(resource);
     }

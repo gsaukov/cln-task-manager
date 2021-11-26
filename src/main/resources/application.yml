@@ -33,6 +33,14 @@ management:
 clnTaskManager:
   cors.allowedOrigin: "*"
 
+#http://localhost/swagger-ui.html
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    disable-swagger-default-url: true
+
 #check what hibernate does with every query you introduce.
 #logging.level.org.hibernate: TRACE
 #logging.level.org.springframework: TRACE
