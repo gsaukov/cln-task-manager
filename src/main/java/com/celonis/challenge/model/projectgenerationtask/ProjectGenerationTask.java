@@ -1,10 +1,10 @@
-package com.celonis.challenge.model;
+package com.celonis.challenge.model.projectgenerationtask;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
@@ -15,7 +15,6 @@ import java.util.Date;
 public class ProjectGenerationTask {
 
     @Id
-    //https://stackoverflow.com/questions/18205574/difference-between-generatedvalue-and-genericgenerator
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(name = "ID")
@@ -26,6 +25,7 @@ public class ProjectGenerationTask {
     @Column(name = "NAME")
     private String name;
 
+    @JsonFormat(pattern="yyyy-MM-dd")
     @Column(name = "CREATION_DATE")
     private Date creationDate;
 

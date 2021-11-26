@@ -18,7 +18,6 @@ public class SimpleHeaderFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
-
         // preflight requests should be accepting OPTIONS requests without requiring authentication.
         // OPTIONS should always work
         if (request.getMethod().equals("OPTIONS")) {

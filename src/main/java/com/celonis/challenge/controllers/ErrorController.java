@@ -1,45 +1,89 @@
 package com.celonis.challenge.controllers;
 
 import com.celonis.challenge.exceptions.InternalException;
-import com.celonis.challenge.exceptions.NotAuthorizedException;
-import com.celonis.challenge.exceptions.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestControllerAdvice
 public class ErrorController {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(NotFoundException.class)
-    public String handleNotFound() {
+    @ResponseBody
+    @ExceptionHandler({MethodArgumentNotValidException.class})
+    public ResponseEntity<ErrorResponse> handleValidationExceptions(MethodArgumentNotValidException e) {
+        ErrorResponse response = new ErrorResponse();
+        for (FieldError error : e.getFieldErrors()) {
+            response.addError("Field: [" + error.getField() + "] " + error.getDefaultMessage());
+        }
+        return response.getResponse(HttpStatus.BAD_REQUEST);
+    }
+
+    @ResponseBody
+    @ExceptionHandler(NoSuchElementException.class)
+    public ResponseEntity<ErrorResponse> handleNotFound() {
         logger.warn("Entity not found");
-        return "Not found";
+        return new ErrorResponse().addError("Entity not found")
+                .getResponse(HttpStatus.NOT_FOUND);
     }
 
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    @ExceptionHandler(NotAuthorizedException.class)
-    public String handleNotAuthorized() {
-        logger.warn("Not authorized");
-        return "Not authorized";
+    @ResponseBody
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<ErrorResponse> handleInternalException(IllegalStateException e) {
+        logger.error("Illegal processing state", e);
+        return new ErrorResponse().addError("Illegal processing state")
+                .getResponse(HttpStatus.NOT_ACCEPTABLE);
     }
 
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseBody
     @ExceptionHandler(InternalException.class)
-    public String handleInternalException(InternalException e) {
+    public ResponseEntity<ErrorResponse> handleInternalException(InternalException e) {
         logger.error("Internal Processing Exception", e);
-        return "Internal exception";
+        return new ErrorResponse().addError("Internal Processing Exception")
+                .getResponse(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseBody
     @ExceptionHandler(Exception.class)
-    public String handleException(Exception e) {
+    public ResponseEntity<ErrorResponse> handleException(Exception e) {
         logger.error("Unhandled Exception", e);
-        return "Unhandled Internal exception";
+        return new ErrorResponse().addError("Unhandled Internal exception")
+                .getResponse(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    private static class ErrorResponse {
+
+        private HttpStatus status;
+        private final List<String> messages = new ArrayList<>();
+
+        public ErrorResponse addError(String error) {
+            messages.add(error);
+            return this;
+        }
+
+        public ResponseEntity<ErrorResponse> getResponse(HttpStatus status) {
+            this.status = status;
+            return new ResponseEntity(this, status);
+        }
+
+        public HttpStatus getStatus() {
+            return status;
+        }
+
+        public List<String> getMessages() {
+            return messages;
+        }
+
     }
 }

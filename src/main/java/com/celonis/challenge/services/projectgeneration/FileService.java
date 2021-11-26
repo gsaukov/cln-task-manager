@@ -1,4 +1,4 @@
-package com.celonis.challenge.services;
+package com.celonis.challenge.services.projectgeneration;
 
 import com.celonis.challenge.exceptions.InternalException;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.net.URL;
-import javax.validation.constraints.NotNull;
 
 @Service
 public class FileService {
@@ -15,10 +14,10 @@ public class FileService {
     private static final String CHALLENGE_ZIP = "challenge.zip";
     private static final String FILE_SUFFIX = ".zip";
 
-    public FileSystemResource getFileFromStorage(String storageLocation) {
+    public FileSystemResource getTaskFileFromStorage(String storageLocation) {
         File inputFile = new File(storageLocation);
         if (!inputFile.exists()) {
-            throw new InternalException("File not generated yet");
+            throw new IllegalStateException("File not generated yet");
         } else {
             return new FileSystemResource(inputFile);
         }

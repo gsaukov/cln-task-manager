@@ -1,4 +1,4 @@
-package com.celonis.tskmngr.config.h2;
+package com.celonis.env.h2;
 
 import org.h2.tools.Server;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
