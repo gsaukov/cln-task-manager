@@ -1,5 +1,6 @@
 package com.celonis.challenge.services;
 
+import com.celonis.challenge.exceptions.InternalException;
 import com.celonis.challenge.exceptions.NotFoundException;
 import com.celonis.challenge.model.ProjectGenerationTask;
 import com.celonis.challenge.model.ProjectGenerationTaskRepository;
@@ -13,7 +14,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional // All entities are managed now.
@@ -33,8 +33,7 @@ public class TaskService {
     }
 
     public ProjectGenerationTask getTask(String taskId) {
-        Optional<ProjectGenerationTask> projectGenerationTask = projectGenerationTaskRepository.findById(taskId);
-        return projectGenerationTask.orElseThrow(NotFoundException::new);
+        return projectGenerationTaskRepository.findById(taskId).orElseThrow(NotFoundException::new);
     }
 
     public List<ProjectGenerationTask> listTasks() {
@@ -66,6 +65,9 @@ public class TaskService {
 
     public ResponseEntity<FileSystemResource> getTaskResultFile(String taskId) {
         ProjectGenerationTask task = getTask(taskId);
+        if (task.getStorageLocation() == null) {
+            throw new InternalException("File not generated yet");
+        }
         FileSystemResource resource = fileService.getFileFromStorage(task.getStorageLocation());
         return prepareFileResponse(resource);
     }
