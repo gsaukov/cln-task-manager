@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 @Entity
@@ -20,6 +22,7 @@ public class ProjectGenerationTask {
     private String id;
 
     @NotNull
+    @Size(min = 3, max = 128)
     @Column(name = "NAME")
     private String name;
 
