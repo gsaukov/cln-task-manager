@@ -7,8 +7,6 @@ spring:
     password: ${CLN_TM_DATASOURCE_PASSWORD:}
     type:
     driver-class-name: ${CLN_TM_DATASOURCE_DRIVER:org.h2.Driver}
-    liquibase:
-      change-log: classpath:db/changelog-master.yaml
     hikari:
       minimumIdle: ${CLN_TM_CONNECTIONPOOL_SIZE_MIN:2}
       maximumPoolSize: ${CLN_TM_CONNECTIONPOOL_SIZE_MAX:6}
