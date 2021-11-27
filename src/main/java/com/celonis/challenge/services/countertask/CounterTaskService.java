@@ -1,5 +1,6 @@
 package com.celonis.challenge.services.countertask;
 
+import com.celonis.challenge.controllers.countertask.CounterTaskModel;
 import com.celonis.challenge.model.countertask.entity.CounterTask;
 
 import java.util.List;
@@ -10,9 +11,9 @@ public interface CounterTaskService {
 
     List<CounterTask> listTasks();
 
-    CounterTask createTask(CounterTask ctTask);
+    CounterTask createTask(CounterTaskModel ctTask);
 
-    CounterTask update(String taskId, CounterTask ctTask);
+    CounterTask update(String taskId, CounterTaskModel ctTask);
 
     void delete(String taskId);
 

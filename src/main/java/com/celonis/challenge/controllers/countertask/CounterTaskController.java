@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/countertasks")
@@ -27,28 +28,29 @@ public class CounterTaskController {
     }
 
     @GetMapping("/")
-    public List<CounterTask> listTasks() {
-        return counterTaskService.listTasks();
+    public List<CounterTaskModel> listTasks() {
+        return counterTaskService.listTasks().stream()
+                .map(this::toModel).collect(Collectors.toList());
     }
 
     @PostMapping("/")
-    public CounterTask createTask(@RequestBody @Valid CounterTask ctTask) {
-        counterTaskService.createTask(ctTask);
+    public CounterTaskModel createTask(@RequestBody @Valid CounterTaskModel ctTask) {
+        CounterTask createdTask = counterTaskService.createTask(ctTask);
         logger.info("Created task id: " + ctTask.getId());
-        return ctTask;
+        return toModel(createdTask);
     }
 
     @GetMapping("/{taskId}")
-    public CounterTask getTask(@PathVariable String taskId) {
-        return counterTaskService.getTask(taskId);
+    public CounterTaskModel getTask(@PathVariable String taskId) {
+        return toModel(counterTaskService.getTask(taskId));
     }
 
     @PutMapping(path = "/{taskId}")
-    public CounterTask updateTask(@PathVariable String taskId,
-                                            @RequestBody @Valid CounterTask updatePgTask) {
+    public CounterTaskModel updateTask(@PathVariable String taskId,
+                                            @RequestBody @Valid CounterTaskModel updatePgTask) {
         CounterTask existingPgTask = counterTaskService.update(taskId, updatePgTask);
         logger.info("Updated task id: " + existingPgTask.getId());
-        return existingPgTask;
+        return toModel(existingPgTask);
     }
 
     @DeleteMapping("/{taskId}")
@@ -70,6 +72,17 @@ public class CounterTaskController {
     public void stopTask(@PathVariable String taskId) {
         executionService.stopTask(taskId);
         logger.info("Execution stopped task id: " + taskId);
+    }
+
+    private CounterTaskModel toModel(CounterTask counterTask) {
+        CounterTaskModel model = new CounterTaskModel();
+        model.setId(counterTask.getId());
+        model.setName(counterTask.getCounterTaskName());
+        model.setX(counterTask.getX());
+        model.setY(counterTask.getY());
+        model.setCreatedAt(counterTask.getLastUpdated());
+        model.setStatus(counterTask.getStatus().toString());
+        return model;
     }
 
 }

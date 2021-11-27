@@ -28,6 +28,14 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
+                  name: COUNTER_STATE_ID
+                  type: varchar(32)
+                  remarks: "Must be indexed, to avoid Table Scans on joins with parent"
+                  constraints:
+                    nullable: false
+                    foreignKeyName: FK_COUNTER_TASK_STATE_ID
+                    references: COUNTER_TASK_STATE (ID)
+              - column:
                   name: STATUS
                   type: varchar(128)
                   constraints:
@@ -85,17 +93,8 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: COUNTER_TASK_ID
-                  type: varchar(32)
-                  remarks: "Must be indexed, to avoid Table Scans on joins with parent"
-                  constraints:
-                    nullable: false
-                    foreignKeyName: FK_COUNTER_TASK_STATE_TASK_ID
-                    references: COUNTER_TASK (ID)
-              - column:
                   name: COUNTER_STATE
                   type: bigint
-                  remarks: "Must be indexed and sorted in descending order"
                   constraints:
                     nullable: false
               - column:
@@ -135,10 +134,3 @@ databaseChangeLog:
             columns:
               - column:
                   name: COUNTER_TASK_ID
-        - createIndex:
-            indexName: IDX_COUNTER_TASK_STATE_STATE
-            tableName: COUNTER_TASK_STATE
-            columns:
-              - column:
-                  descending: true
-                  name: COUNTER_STATE

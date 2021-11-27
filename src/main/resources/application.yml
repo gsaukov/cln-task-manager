@@ -30,7 +30,7 @@ management:
 clnTaskManager:
   h2Enabled: ${CLN_TM_H2_ENABLED:true}
   cors.allowedOrigin: ${CLN_TM_CORS_ALLOWED_ORIGIN:"*"}
-  authheader.enabled: ${CLN_TM_AUTH_HEADER_ENABLED:false}
+  authheader.disabled: ${CLN_TM_AUTH_HEADER_ENABLED:true}
 
 #http://localhost/swagger-ui.html it will not work if clnTaskManager.authheader.enabled true
 springdoc:

@@ -18,12 +18,12 @@ public class SimpleHeaderFilter extends OncePerRequestFilter {
     private final String HEADER_NAME = "Celonis-Auth";
     private final String HEADER_VALUE = "totally_secret";
 
-    @Value("${clnTaskManager.authheader.enabled}")
-    private Boolean authHeaderEnabled;
+    @Value("${clnTaskManager.authheader.disabled}")
+    private Boolean authHeaderDisabled;
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        return authHeaderEnabled;
+        return authHeaderDisabled;
     }
 
     @Override

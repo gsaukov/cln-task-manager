@@ -3,15 +3,12 @@ package com.celonis.challenge.model.countertask.entity;
 import javax.persistence.*;
 import java.util.Objects;
 
+//TODO reason for this entity is te decouple task execution state and task itself.
+
 @Entity
 @Access(AccessType.FIELD)
 @Table(name = "COUNTER_TASK_STATE")
-public class CounterTaskState extends BaseEntity implements Comparable {
-
-    @ManyToOne
-    @JoinColumn(name = "COUNTER_TASK_ID")
-    private CounterTask counterTask;
-
+public class CounterTaskState extends BaseEntity {
 
     @Column(name = "COUNTER_STATE")
     private Integer counterState;
@@ -20,8 +17,16 @@ public class CounterTaskState extends BaseEntity implements Comparable {
         //hibernate
     }
 
-    public CounterTaskState(CounterTask counterTask) {
-        this.counterTask = counterTask;
+    public CounterTaskState(Integer counterState) {
+        this.counterState = counterState;
+    }
+
+    public Integer getCounterState() {
+        return counterState;
+    }
+
+    public void setCounterState(Integer counterState) {
+        this.counterState = counterState;
     }
 
     @Override
@@ -36,12 +41,6 @@ public class CounterTaskState extends BaseEntity implements Comparable {
     @Override
     public int hashCode() {
         return Objects.hash(super.getId());
-    }
-
-    @Override
-    public int compareTo(Object o) {
-        CounterTaskState counterTaskState = (CounterTaskState) o;
-        return counterState.compareTo(counterTaskState.counterState);
     }
 
 }

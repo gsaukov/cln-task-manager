@@ -1,9 +1,6 @@
 package com.celonis.challenge.model.countertask.entity;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
-import javax.validation.constraints.Size;
 import java.util.*;
 
 @Entity
@@ -11,23 +8,18 @@ import java.util.*;
 @Table(name = "COUNTER_TASK")
 public class CounterTask extends BaseEntity {
 
-    @NotNull
-    @Size(min = 3, max = 128)
     @Column(name = "COUNTER_TASK_NAME")
     private String counterTaskName;
 
-    @Positive
     @Column(name = "X")
     private Integer x;
 
-    @Positive
     @Column(name = "Y")
     private Integer y;
 
-    @JoinColumn(name = "COUNTER_TASK_ID")
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    @OrderBy("COUNTER_STATE DESC")
-    private SortedSet<CounterTaskState> counterTaskStates;
+    @JoinColumn(name = "COUNTER_TASK_ID", referencedColumnName = "ID")
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private CounterTaskState counterTaskState;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "STATUS")
@@ -38,6 +30,7 @@ public class CounterTask extends BaseEntity {
         this.x = x;
         this.y = y;
         this.status = Status.ACTIVE;
+        this.counterTaskState = new CounterTaskState(y - x);
     }
 
     public CounterTask() {
@@ -60,8 +53,8 @@ public class CounterTask extends BaseEntity {
         return y;
     }
 
-    public SortedSet<CounterTaskState> getCounterTaskStates() {
-        return counterTaskStates;
+    public CounterTaskState getCounterTaskState() {
+        return counterTaskState;
     }
 
     public Status getStatus() {

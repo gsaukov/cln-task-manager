@@ -14,4 +14,4 @@ spring:
 clnTaskManager:
   h2Enabled: false
   cors.allowedOrigin: "*"
-  authheader.enabled: true
+  authheader.disabled: false

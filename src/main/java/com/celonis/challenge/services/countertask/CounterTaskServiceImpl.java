@@ -1,13 +1,16 @@
 package com.celonis.challenge.services.countertask;
 
+import com.celonis.challenge.controllers.countertask.CounterTaskModel;
 import com.celonis.challenge.model.countertask.entity.CounterTask;
 import com.celonis.challenge.model.countertask.repository.CounterTaskRepository;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
+@Transactional
 public class CounterTaskServiceImpl implements CounterTaskService{
 
     private final CounterTaskRepository repository;
@@ -27,19 +30,23 @@ public class CounterTaskServiceImpl implements CounterTaskService{
     }
 
     @Override
-    public CounterTask createTask(CounterTask ctTask) {
-        return repository.save(ctTask);
+    public CounterTask createTask(CounterTaskModel model) {
+        return repository.save(toTask(model));
     }
 
     @Override
-    public CounterTask update(String taskId, CounterTask updateCtTask) {
+    public CounterTask update(String taskId, CounterTaskModel model) {
         CounterTask existingCtTask = getTask(taskId);
-        existingCtTask.setCounterTaskName(updateCtTask.getCounterTaskName());
+        existingCtTask.setCounterTaskName(model.getName());
         return existingCtTask;
     }
 
     @Override
     public void delete(String taskId) {
         repository.deleteById(getTask(taskId).getId());
+    }
+
+    private CounterTask toTask(CounterTaskModel model) {
+        return new CounterTask(model.getName(), model.getX(), model.getY());
     }
 }

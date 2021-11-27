@@ -1,7 +1,5 @@
 package com.celonis.challenge.model.countertask.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -23,14 +21,12 @@ public abstract class BaseEntity implements Serializable {
     @Column(name = "VERSION")
     private Long version;
 
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     @Column(name = "CREATED_AT")
     private LocalDateTime createdAt;
 
     @Column(name = "CREATED_BY")
     private String createdBy;
 
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     @Column(name = "LAST_UPDATED_AT")
     private LocalDateTime lastUpdated;
 
