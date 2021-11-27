@@ -1,0 +1,144 @@
+databaseChangeLog:
+  - changeSet:
+      id: counterTaskTableCreation
+      author: gsaukov
+      changes:
+        - createTable:
+            tableName: COUNTER_TASK
+            columns:
+              - column:
+                  name: ID
+                  type: varchar(32)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: COUNTER_TASK_NAME
+                  type: varchar(128)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: X
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: Y
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: STATUS
+                  type: varchar(128)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: VERSION
+                  type: bigint
+                  remarks: "Spring optimistic locking"
+                  valueNumeric: 0
+                  constraints:
+                    nullable: false
+              - column:
+                  name: CREATED_AT
+                  type: datetime(3)
+                  valueDate: current_datetime
+                  constraints:
+                    nullable: false
+              - column:
+                  name: LAST_UPDATED_AT
+                  type: datetime(3)
+                  valueDate: current_datetime
+                  constraints:
+                    nullable: false
+              - column:
+                  name: CREATED_BY
+                  type: varchar(32)
+                  remarks: "Users that create tasks, taken from auth context"
+                  constraints:
+                    nullable: false
+              - column:
+                  name: LAST_UPDATED_BY
+                  type: varchar(32)
+                  remarks: "Users that update tasks, taken from auth context"
+                  constraints:
+                    nullable: false
+        - createIndex:
+            indexName: IDX_COUNTER_TASK_NAME
+            tableName: COUNTER_TASK
+            columns:
+              - column:
+                  name: COUNTER_TASK_NAME
+
+
+  - changeSet:
+      id: counterTaskStateTableCreation
+      author: gsaukov
+      changes:
+        - createTable:
+            tableName: COUNTER_TASK_STATE
+            columns:
+              - column:
+                  name: ID
+                  type: varchar(32)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: COUNTER_TASK_ID
+                  type: varchar(32)
+                  remarks: "Must be indexed, to avoid Table Scans on joins with parent"
+                  constraints:
+                    nullable: false
+                    foreignKeyName: FK_COUNTER_TASK_STATE_TASK_ID
+                    references: COUNTER_TASK (ID)
+              - column:
+                  name: COUNTER_STATE
+                  type: bigint
+                  remarks: "Must be indexed and sorted in descending order"
+                  constraints:
+                    nullable: false
+              - column:
+                  name: VERSION
+                  type: bigint
+                  remarks: "Spring optimistic locking"
+                  valueNumeric: 0
+                  constraints:
+                    nullable: false
+              - column:
+                  name: CREATED_AT
+                  type: datetime(3)
+                  valueDate: current_datetime
+                  constraints:
+                    nullable: false
+              - column:
+                  name: LAST_UPDATED_AT
+                  type: datetime(3)
+                  valueDate: current_datetime
+                  constraints:
+                    nullable: false
+              - column:
+                  name: CREATED_BY
+                  type: varchar(32)
+                  remarks: "Users that create tasks, taken from auth context"
+                  constraints:
+                    nullable: false
+              - column:
+                  name: LAST_UPDATED_BY
+                  type: varchar(32)
+                  remarks: "Users that update tasks, taken from auth context"
+                  constraints:
+                    nullable: false
+        - createIndex:
+            indexName: IDX_COUNTER_TASK_STATE_TASK_ID
+            tableName: COUNTER_TASK_STATE
+            columns:
+              - column:
+                  name: COUNTER_TASK_ID
+        - createIndex:
+            indexName: IDX_COUNTER_TASK_STATE_STATE
+            tableName: COUNTER_TASK_STATE
+            columns:
+              - column:
+                  descending: true
+                  name: COUNTER_STATE
