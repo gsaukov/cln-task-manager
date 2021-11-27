@@ -2,8 +2,6 @@ package com.celonis.challenge.services.projectgeneration;
 
 import com.celonis.challenge.model.projectgenerationtask.ProjectGenerationTask;
 import com.celonis.challenge.model.projectgenerationtask.ProjectGenerationTaskRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -24,30 +22,30 @@ public class TaskServiceImpl implements TaskService {
     private static final String ATTACHMENT = "attachment";
     private static final String CHALLENGE_ZIP = "challenge.zip";
 
-    private final ProjectGenerationTaskRepository pgtRepository;
+    private final ProjectGenerationTaskRepository repository;
 
     private final FileService fileService;
 
-    public TaskServiceImpl(ProjectGenerationTaskRepository pgtRepository,
+    public TaskServiceImpl(ProjectGenerationTaskRepository repository,
                            FileService fileService) {
-        this.pgtRepository = pgtRepository;
+        this.repository = repository;
         this.fileService = fileService;
     }
 
     @Override
     public ProjectGenerationTask getTask(String taskId) {
-        return pgtRepository.findById(taskId).orElseThrow(NoSuchElementException::new);
+        return repository.findById(taskId).orElseThrow(NoSuchElementException::new);
     }
 
     @Override
     public List<ProjectGenerationTask> listTasks() {
-        return pgtRepository.findAll();
+        return repository.findAll();
     }
 
     @Override
     public ProjectGenerationTask createTask(ProjectGenerationTask pgTask) {
         pgTask.setCreationDate(new Date());
-        return pgtRepository.save(pgTask);
+        return repository.save(pgTask);
     }
 
     @Override
@@ -59,7 +57,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public void delete(String taskId) {
-        pgtRepository.deleteById(getTask(taskId).getId());
+        repository.deleteById(getTask(taskId).getId());
     }
 
     @Override
