@@ -1,20 +1,25 @@
 package com.celonis.challenge.services.projectgeneration;
 
 import com.celonis.challenge.controllers.projectgenerationtask.TaskController;
+import com.celonis.challenge.exceptions.TaskExecutionException;
 import com.celonis.challenge.model.projectgenerationtask.ProjectGenerationTask;
 import com.celonis.challenge.model.projectgenerationtask.ProjectGenerationTaskRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.NoSuchElementException;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
-public class ProjectGenerationExeptionsTest {
+public class ProjectGenerationExecutionExceptionsTest {
 
-    private static final String DO_NOT_EXIST = "DO_NOT_EXIST";
+    @MockBean
+    FileService fileService;
 
     @Autowired
     ProjectGenerationTaskRepository repository;
@@ -23,23 +28,13 @@ public class ProjectGenerationExeptionsTest {
     TaskController taskController;
 
     @Test
-    public void getTaskNotExists() {
+    public void taskExecutionException() {
+        //given
+        var task = createTask();
+        when(fileService.createAndStoreTaskFile(any(String.class))).thenThrow(new TaskExecutionException("Task File creation failed"));
         //when
-        assertThrows(NoSuchElementException.class, () -> taskController.getTask(DO_NOT_EXIST));
+        assertThrows(TaskExecutionException.class, () -> taskController.executeTask(task.getId()));
     }
-
-    @Test
-    public void updateTaskNotExists() {
-        //when
-        assertThrows(NoSuchElementException.class, () -> taskController.updateTask(DO_NOT_EXIST, createTask()));
-    }
-
-    @Test
-    public void executeTaskNotExists() {
-        //when
-        assertThrows(NoSuchElementException.class, () -> taskController.executeTask(DO_NOT_EXIST));
-    }
-
 
     private ProjectGenerationTask createTask() {
         var task = new ProjectGenerationTask();
