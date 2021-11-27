@@ -35,13 +35,6 @@ public class CounterTaskServiceImpl implements CounterTaskService{
     }
 
     @Override
-    public CounterTask update(String taskId, CounterTaskModel model) {
-        CounterTask existingCtTask = getTask(taskId);
-        existingCtTask.setCounterTaskName(model.getName());
-        return existingCtTask;
-    }
-
-    @Override
     public void delete(String taskId) {
         repository.deleteById(getTask(taskId).getId());
     }

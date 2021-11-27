@@ -3,7 +3,7 @@ package com.celonis.challenge.model.countertask.entity;
 import javax.persistence.*;
 import java.util.Objects;
 
-//TODO reason for this entity is te decouple task execution state and task itself.
+//TODO reason for this entity is te decouple task's execution state and task itself.
 
 @Entity
 @Access(AccessType.FIELD)
@@ -13,7 +13,7 @@ public class CounterTaskState extends BaseEntity {
     @Column(name = "COUNTER_STATE")
     private Integer counterState;
 
-    public CounterTaskState() {
+    protected CounterTaskState() {
         //hibernate
     }
 

@@ -13,8 +13,6 @@ public interface CounterTaskService {
 
     CounterTask createTask(CounterTaskModel ctTask);
 
-    CounterTask update(String taskId, CounterTaskModel ctTask);
-
     void delete(String taskId);
 
 }

@@ -3,6 +3,8 @@ package com.celonis.challenge.model.countertask.entity;
 import javax.persistence.*;
 import java.util.*;
 
+//TODO the idea is to have immutable task, and only increment state object.
+
 @Entity
 @Access(AccessType.FIELD)
 @Table(name = "COUNTER_TASK")
@@ -17,7 +19,7 @@ public class CounterTask extends BaseEntity {
     @Column(name = "Y")
     private Integer y;
 
-    @JoinColumn(name = "COUNTER_TASK_ID", referencedColumnName = "ID")
+    @JoinColumn(name = "COUNTER_STATE_ID", referencedColumnName = "ID")
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private CounterTaskState counterTaskState;
 
@@ -25,16 +27,16 @@ public class CounterTask extends BaseEntity {
     @Column(name = "STATUS")
     private Status status;
 
+    protected CounterTask() {
+        //hibernate
+    }
+
     public CounterTask(String counterTaskName, Integer x, Integer y) {
         this.counterTaskName = counterTaskName;
         this.x = x;
         this.y = y;
         this.status = Status.ACTIVE;
         this.counterTaskState = new CounterTaskState(y - x);
-    }
-
-    public CounterTask() {
-        //hibernate
     }
 
     public String getCounterTaskName() {

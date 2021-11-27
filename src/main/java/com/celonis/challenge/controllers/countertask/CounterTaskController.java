@@ -36,21 +36,13 @@ public class CounterTaskController {
     @PostMapping("/")
     public CounterTaskModel createTask(@RequestBody @Valid CounterTaskModel ctTask) {
         CounterTask createdTask = counterTaskService.createTask(ctTask);
-        logger.info("Created task id: " + ctTask.getId());
+        logger.info("Created task id: " + createdTask.getId());
         return toModel(createdTask);
     }
 
     @GetMapping("/{taskId}")
     public CounterTaskModel getTask(@PathVariable String taskId) {
         return toModel(counterTaskService.getTask(taskId));
-    }
-
-    @PutMapping(path = "/{taskId}")
-    public CounterTaskModel updateTask(@PathVariable String taskId,
-                                            @RequestBody @Valid CounterTaskModel updatePgTask) {
-        CounterTask existingPgTask = counterTaskService.update(taskId, updatePgTask);
-        logger.info("Updated task id: " + existingPgTask.getId());
-        return toModel(existingPgTask);
     }
 
     @DeleteMapping("/{taskId}")
@@ -80,7 +72,8 @@ public class CounterTaskController {
         model.setName(counterTask.getCounterTaskName());
         model.setX(counterTask.getX());
         model.setY(counterTask.getY());
-        model.setCreatedAt(counterTask.getLastUpdated());
+        model.setCreatedAt(counterTask.getCreatedAt());
+        model.setUpdateAt(counterTask.getCreatedAt());
         model.setStatus(counterTask.getStatus().toString());
         return model;
     }

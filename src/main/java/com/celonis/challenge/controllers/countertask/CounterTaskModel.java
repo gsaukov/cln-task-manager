@@ -2,33 +2,41 @@ package com.celonis.challenge.controllers.countertask;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 
 public class CounterTaskModel {
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String id;
 
     @NotNull
     @Size(min = 3, max = 128)
     private String name;
 
-    @Positive
+    @Min(0)
     private Integer x;
 
-    @Positive
+    @Min(1)
     private Integer y;
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String status;
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updateAt;
+
+    @AssertTrue(message = "Y must be greater X")
+    private boolean isX() {
+        return y > x;
+    }
 
     public String getId() {
         return id;
