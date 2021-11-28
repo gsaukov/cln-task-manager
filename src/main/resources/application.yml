@@ -33,6 +33,8 @@ clnTaskManager:
   authheader.disabled: ${CLN_TM_AUTH_HEADER_ENABLED:true}
   counterTask:
     timeoutMs: ${CLN_TM_COUNTER_TASK_TIMEOUT_MS:1000}
+    emitterDurationMs: ${CLN_TM_COUNTER_TASK_EMITTER_DURATION_MS:60000}
+    emitterStepMs: ${CLN_TM_COUNTER_TASK_EMITTER_STEP_MS:1000}
 
 #http://localhost/swagger-ui.html it will not work if clnTaskManager.authheader.enabled true
 springdoc:

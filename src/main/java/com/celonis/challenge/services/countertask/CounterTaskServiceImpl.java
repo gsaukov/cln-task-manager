@@ -21,8 +21,8 @@ import java.util.NoSuchElementException;
 @Transactional
 public class CounterTaskServiceImpl implements CounterTaskService {
 
-//    @Value("${clnTaskManager.authheader.disabled}")
-//    private Long authHeaderDisabled;
+    @Value("${clnTaskManager.counterTask.emitterDurationMs}")
+    private Long emitterDurationMs;
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -32,7 +32,8 @@ public class CounterTaskServiceImpl implements CounterTaskService {
 
     private final CounterTaskExecutionStateEmitter executionStateEmitter;
 
-    public CounterTaskServiceImpl(CounterTaskRepository repository, CounterTaskExecutionService executionService, CounterTaskExecutionStateEmitter executionStateEmitter) {
+    public CounterTaskServiceImpl(CounterTaskRepository repository, CounterTaskExecutionService executionService,
+                                  CounterTaskExecutionStateEmitter executionStateEmitter) {
         this.repository = repository;
         this.executionService = executionService;
         this.executionStateEmitter = executionStateEmitter;
@@ -77,7 +78,7 @@ public class CounterTaskServiceImpl implements CounterTaskService {
 
     @Override
     public SseEmitter subscribeToExecutionEvents(String taskId) {
-        SseEmitter sseEmitter = new SseEmitter(60000l);
+        SseEmitter sseEmitter = new SseEmitter(emitterDurationMs);
         sseEmitter.onTimeout(sseEmitter::complete);
         executionStateEmitter.subscribeToExecutionEvents(sseEmitter, taskId);
         return sseEmitter;
