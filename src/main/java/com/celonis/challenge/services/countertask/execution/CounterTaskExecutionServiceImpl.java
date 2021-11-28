@@ -27,6 +27,7 @@ public class CounterTaskExecutionServiceImpl implements CounterTaskExecutionServ
         var existingTask = stateMap.putIfAbsent(task.getId(), task);
         if (existingTask == null) {
             var runningTask = stateMap.get(task.getId());
+            updateTask(runningTask); //set state from active to running
             while(runningTask.isRunning()) {
                 if(runningTask.getX().get() >= runningTask.getY() &&
                         runningTask.getStatus().compareAndSet(CounterTaskStatus.RUNNING, CounterTaskStatus.FINISHED)) {
