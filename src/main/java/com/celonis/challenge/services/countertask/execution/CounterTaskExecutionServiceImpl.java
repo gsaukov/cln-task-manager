@@ -3,6 +3,7 @@ package com.celonis.challenge.services.countertask.execution;
 import com.celonis.challenge.model.countertask.entity.CounterTaskStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -11,13 +12,16 @@ import java.util.concurrent.ConcurrentHashMap;
 @Service
 public class CounterTaskExecutionServiceImpl implements CounterTaskExecutionService {
 
+    @Value("${clnTaskManager.counterTask.timeoutMs}")
+    private Long timeoutMs;
+
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private final ConcurrentHashMap<String, CounterTaskExecutionState> stateMap = new ConcurrentHashMap<>();
 
-    private final CounterTaskSynchronizer synchronizer;
+    private final CounterTaskExecutionStateSynchronizer synchronizer;
 
-    public CounterTaskExecutionServiceImpl(CounterTaskSynchronizer synchronizer) {
+    public CounterTaskExecutionServiceImpl(CounterTaskExecutionStateSynchronizer synchronizer) {
         this.synchronizer = synchronizer;
     }
 
@@ -56,7 +60,7 @@ public class CounterTaskExecutionServiceImpl implements CounterTaskExecutionServ
 
     private void sleep(String taskId) {
         try {
-            Thread.sleep(1000l);
+            Thread.sleep(timeoutMs);
         } catch (InterruptedException e) {
             logger.error("CounterTask was interrupted: " + taskId);
             e.printStackTrace();

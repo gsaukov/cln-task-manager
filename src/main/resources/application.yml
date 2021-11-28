@@ -31,6 +31,8 @@ clnTaskManager:
   h2Enabled: ${CLN_TM_H2_ENABLED:true}
   cors.allowedOrigin: ${CLN_TM_CORS_ALLOWED_ORIGIN:"*"}
   authheader.disabled: ${CLN_TM_AUTH_HEADER_ENABLED:true}
+  counterTask:
+    timeoutMs: ${CLN_TM_COUNTER_TASK_TIMEOUT_MS:1000}
 
 #http://localhost/swagger-ui.html it will not work if clnTaskManager.authheader.enabled true
 springdoc:

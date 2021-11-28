@@ -9,13 +9,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class CounterTaskSynchronizerImpl implements CounterTaskSynchronizer {
+public class CounterTaskExecutionStateSynchronizerImpl implements CounterTaskExecutionStateSynchronizer {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private final CounterTaskRepository repository;
 
-    public CounterTaskSynchronizerImpl(CounterTaskRepository repository) {
+    public CounterTaskExecutionStateSynchronizerImpl(CounterTaskRepository repository) {
         this.repository = repository;
     }
 

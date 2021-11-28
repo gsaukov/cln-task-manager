@@ -15,3 +15,5 @@ clnTaskManager:
   h2Enabled: false
   cors.allowedOrigin: "*"
   authheader.disabled: false
+  counterTask:
+    timeoutMs: ${CLN_TM_COUNTER_TASK_TIMEOUT_MS:10}
