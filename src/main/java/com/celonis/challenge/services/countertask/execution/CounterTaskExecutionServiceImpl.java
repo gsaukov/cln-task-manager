@@ -31,10 +31,11 @@ public class CounterTaskExecutionServiceImpl implements CounterTaskExecutionServ
         var existingTask = stateMap.putIfAbsent(task.getId(), task);
         if (existingTask == null) {
             var runningTask = stateMap.get(task.getId());
-            updateTask(runningTask); //set state from active to running
+            updateTask(runningTask); //set state from ACTIVE to RUNNING in db
             while(runningTask.isRunning()) {
                 if(runningTask.getX().get() >= runningTask.getY() &&
                         runningTask.getStatus().compareAndSet(CounterTaskStatus.RUNNING, CounterTaskStatus.FINISHED)) {
+                    //you can only update it as FINISHED when you moved it from RUNNING state.
                     updateTask(runningTask);
                 } else {
                     runningTask.getX().incrementAndGet();
@@ -49,6 +50,7 @@ public class CounterTaskExecutionServiceImpl implements CounterTaskExecutionServ
     @Override
     public void stopTask(String taskId) {
         var runningTask = stateMap.get(taskId);
+        //you can only stop RUNNING task and then update db accordingly.
         if(runningTask != null && runningTask.getStatus().compareAndSet(CounterTaskStatus.RUNNING, CounterTaskStatus.STOPPED)) {
             updateTask(runningTask);
         }

@@ -1,4 +1,4 @@
-package com.celonis.challenge.services.projectgeneration;
+package com.celonis.challenge.projectgenerationtask;
 
 import com.celonis.challenge.controllers.projectgenerationtask.TaskController;
 import com.celonis.challenge.model.projectgenerationtask.ProjectGenerationTask;
@@ -7,12 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.text.SimpleDateFormat;
-import java.time.Duration;
-import java.time.Instant;
-import java.util.Date;
 import java.util.List;
-import java.util.regex.Pattern;
 
 import static org.junit.jupiter.api.Assertions.*;
 

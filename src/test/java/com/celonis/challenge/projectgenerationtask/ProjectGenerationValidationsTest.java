@@ -1,7 +1,8 @@
-package com.celonis.challenge.services.projectgeneration;
+package com.celonis.challenge.projectgenerationtask;
 
 import com.celonis.challenge.controllers.projectgenerationtask.TaskController;
 import com.celonis.challenge.model.projectgenerationtask.ProjectGenerationTask;
+import com.celonis.challenge.services.projectgenerationtask.TaskService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,7 @@
 package com.celonis.challenge.controllers.projectgenerationtask;
 
 import com.celonis.challenge.model.projectgenerationtask.ProjectGenerationTask;
-import com.celonis.challenge.services.projectgeneration.TaskService;
+import com.celonis.challenge.services.projectgenerationtask.TaskService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.FileSystemResource;

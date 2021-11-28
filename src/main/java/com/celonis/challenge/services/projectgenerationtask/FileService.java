@@ -1,4 +1,4 @@
-package com.celonis.challenge.services.projectgeneration;
+package com.celonis.challenge.services.projectgenerationtask;
 
 import org.springframework.core.io.FileSystemResource;
 

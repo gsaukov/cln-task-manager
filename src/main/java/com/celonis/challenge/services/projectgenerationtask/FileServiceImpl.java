@@ -1,4 +1,4 @@
-package com.celonis.challenge.services.projectgeneration;
+package com.celonis.challenge.services.projectgenerationtask;
 
 import com.celonis.challenge.exceptions.TaskExecutionException;
 import org.apache.tomcat.util.http.fileupload.IOUtils;

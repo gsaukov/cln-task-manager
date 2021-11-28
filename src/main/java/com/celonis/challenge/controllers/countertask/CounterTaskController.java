@@ -1,9 +1,7 @@
 package com.celonis.challenge.controllers.countertask;
 
 import com.celonis.challenge.model.countertask.entity.CounterTask;
-import com.celonis.challenge.services.countertask.execution.CounterTaskExecutionService;
 import com.celonis.challenge.services.countertask.CounterTaskService;
-import com.celonis.challenge.services.countertask.execution.CounterTaskExecutionStateEmitter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -64,7 +62,7 @@ public class CounterTaskController {
         logger.info("Execution stopped task id: " + taskId);
     }
 
-    @GetMapping("/{taskId}/taskState")
+    @GetMapping("/{taskId}/taskstate")
     public SseEmitter getTaskExecutionState(@PathVariable String taskId) {
         return counterTaskService.subscribeToExecutionEvents(taskId);
     }

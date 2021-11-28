@@ -78,9 +78,10 @@ public class CounterTaskServiceImpl implements CounterTaskService {
 
     @Override
     public SseEmitter subscribeToExecutionEvents(String taskId) {
+        CounterTask task = getTask(taskId);
         SseEmitter sseEmitter = new SseEmitter(emitterDurationMs);
         sseEmitter.onTimeout(sseEmitter::complete);
-        executionStateEmitter.subscribeToExecutionEvents(sseEmitter, taskId);
+        executionStateEmitter.subscribeToExecutionEvents(sseEmitter, task.getId());
         return sseEmitter;
     }
 

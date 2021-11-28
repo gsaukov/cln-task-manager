@@ -1,4 +1,4 @@
-package com.celonis.challenge.services.projectgeneration;
+package com.celonis.challenge.projectgenerationtask;
 
 import com.celonis.challenge.controllers.projectgenerationtask.TaskController;
 import com.celonis.challenge.model.projectgenerationtask.ProjectGenerationTask;
