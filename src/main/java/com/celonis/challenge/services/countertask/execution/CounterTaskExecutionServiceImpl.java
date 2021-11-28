@@ -54,6 +54,12 @@ public class CounterTaskExecutionServiceImpl implements CounterTaskExecutionServ
         }
     }
 
+    @Override
+    public CounterTaskExecutionState getTaskState(String taskId) {
+        //i dont like to return mutable object from here but for simplicity let it be.
+        return stateMap.get(taskId);
+    }
+
     private void updateTask(CounterTaskExecutionState task) {
         synchronizer.updateTask(task);
     }

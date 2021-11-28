@@ -3,10 +3,12 @@ package com.celonis.challenge.controllers.countertask;
 import com.celonis.challenge.model.countertask.entity.CounterTask;
 import com.celonis.challenge.services.countertask.execution.CounterTaskExecutionService;
 import com.celonis.challenge.services.countertask.CounterTaskService;
+import com.celonis.challenge.services.countertask.execution.CounterTaskExecutionStateEmitter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -20,11 +22,11 @@ public class CounterTaskController {
 
     private final CounterTaskService counterTaskService;
 
-    private final CounterTaskExecutionService executionService;
+    private final CounterTaskExecutionStateEmitter executionStateEmitter;
 
-    public CounterTaskController(CounterTaskService counterTaskService, CounterTaskExecutionService executionService) {
+    public CounterTaskController(CounterTaskService counterTaskService, CounterTaskExecutionStateEmitter executionStateEmitter) {
         this.counterTaskService = counterTaskService;
-        this.executionService = executionService;
+        this.executionStateEmitter = executionStateEmitter;
     }
 
     @GetMapping("/")
@@ -56,7 +58,6 @@ public class CounterTaskController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void executeTask(@PathVariable String taskId) {
         counterTaskService.executeTask(taskId);
-        logger.info("Execution started task id: " + taskId);
     }
 
     @PostMapping("/{taskId}/stop")
@@ -64,6 +65,14 @@ public class CounterTaskController {
     public void stopTask(@PathVariable String taskId) {
         counterTaskService.stopTask(taskId);
         logger.info("Execution stopped task id: " + taskId);
+    }
+
+    @GetMapping("/{taskId}/taskState")
+    public SseEmitter getTaskExecutionState(@PathVariable String taskId) {
+        SseEmitter sseEmitter = new SseEmitter(60000l);
+        sseEmitter.onTimeout(sseEmitter::complete);
+        executionStateEmitter.subscribeToExecutionEvents(sseEmitter, taskId);
+        return sseEmitter;
     }
 
     private CounterTaskModel toModel(CounterTask counterTask) {

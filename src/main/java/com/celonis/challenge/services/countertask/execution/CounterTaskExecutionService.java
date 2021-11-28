@@ -6,4 +6,6 @@ public interface CounterTaskExecutionService {
 
     void stopTask(String taskId);
 
+    CounterTaskExecutionState getTaskState(String taskId);
+
 }

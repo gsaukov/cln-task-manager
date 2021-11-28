@@ -57,7 +57,7 @@ public class CounterTaskServiceImpl implements CounterTaskService{
         if(task.getStatus().equals(CounterTaskStatus.ACTIVE)){
             executionService.executeTask(toExecutionState(task));
         } else {
-            logger.info("Task is not in ACTIVE state");
+            logger.info("Task is " + taskId + " not in ACTIVE state");
         }
     }
 
