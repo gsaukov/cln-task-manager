@@ -25,7 +25,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: "*"
+        include: "*" #cluster health probe and discovery.
 
 clnTaskManager:
   h2Enabled: ${CLN_TM_H2_ENABLED:true}

@@ -1,12 +1,8 @@
 package com.celonis.challenge.model.projectgenerationtask;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.util.Date;
 
 @Entity
@@ -20,16 +16,12 @@ public class ProjectGenerationTask {
     @Column(name = "ID")
     private String id;
 
-    @NotNull
-    @Size(min = 3, max = 128)
     @Column(name = "NAME")
     private String name;
 
-    @JsonFormat(pattern="yyyy-MM-dd")
     @Column(name = "CREATION_DATE")
     private Date creationDate;
 
-    @JsonIgnore
     @Column(name = "STORAGE_LOCATION")
     private String storageLocation;
 

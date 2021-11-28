@@ -1,6 +1,7 @@
 package com.celonis.challenge.projectgenerationtask;
 
-import com.celonis.challenge.controllers.projectgenerationtask.TaskController;
+import com.celonis.challenge.controllers.projectgenerationtask.ProjectGenerationTaskController;
+import com.celonis.challenge.controllers.projectgenerationtask.ProjectGenerationTaskModel;
 import com.celonis.challenge.model.projectgenerationtask.ProjectGenerationTask;
 import com.celonis.challenge.model.projectgenerationtask.ProjectGenerationTaskRepository;
 import org.junit.jupiter.api.Test;
@@ -23,7 +24,7 @@ public class ProjectGenerationExecutionTest {
     ProjectGenerationTaskRepository repository;
 
     @Autowired
-    TaskController taskController;
+    ProjectGenerationTaskController taskController;
 
     @Test
     public void executeNew_GetResult() {
@@ -46,8 +47,8 @@ public class ProjectGenerationExecutionTest {
         assertNotNull(executedTask.getStorageLocation());
     }
 
-    private ProjectGenerationTask createTask() {
-        var task = new ProjectGenerationTask();
+    private ProjectGenerationTaskModel createTask() {
+        var task = new ProjectGenerationTaskModel();
         task.setName("testTaskName");
         return taskController.createTask(task);
     }

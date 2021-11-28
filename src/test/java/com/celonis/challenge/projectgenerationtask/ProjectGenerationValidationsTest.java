@@ -1,8 +1,8 @@
 package com.celonis.challenge.projectgenerationtask;
 
-import com.celonis.challenge.controllers.projectgenerationtask.TaskController;
+import com.celonis.challenge.controllers.projectgenerationtask.ProjectGenerationTaskController;
 import com.celonis.challenge.model.projectgenerationtask.ProjectGenerationTask;
-import com.celonis.challenge.services.projectgenerationtask.TaskService;
+import com.celonis.challenge.services.projectgenerationtask.ProjectGenerationTaskService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(controllers = TaskController.class)
+@WebMvcTest(controllers = ProjectGenerationTaskController.class)
 public class ProjectGenerationValidationsTest {
 
     private final String HEADER_NAME = "Celonis-Auth";
@@ -25,7 +25,7 @@ public class ProjectGenerationValidationsTest {
     MockMvc mockMvc;
 
     @MockBean
-    TaskService taskService;
+    ProjectGenerationTaskService taskService;
 
     @Autowired
     ObjectMapper mapper;

@@ -22,7 +22,7 @@ public class SimpleHeaderFilter extends OncePerRequestFilter {
     private Boolean authHeaderDisabled;
 
     @Override
-    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+    protected boolean shouldNotFilter(HttpServletRequest request) {
         return authHeaderDisabled;
     }
 

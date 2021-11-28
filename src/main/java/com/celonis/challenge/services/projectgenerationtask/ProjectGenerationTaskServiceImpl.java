@@ -1,5 +1,8 @@
 package com.celonis.challenge.services.projectgenerationtask;
 
+import com.celonis.challenge.controllers.countertask.CounterTaskModel;
+import com.celonis.challenge.controllers.projectgenerationtask.ProjectGenerationTaskModel;
+import com.celonis.challenge.model.countertask.entity.CounterTask;
 import com.celonis.challenge.model.projectgenerationtask.ProjectGenerationTask;
 import com.celonis.challenge.model.projectgenerationtask.ProjectGenerationTaskRepository;
 import org.springframework.core.io.FileSystemResource;
@@ -16,7 +19,7 @@ import java.util.NoSuchElementException;
 
 @Service
 @Transactional
-public class TaskServiceImpl implements TaskService {
+public class ProjectGenerationTaskServiceImpl implements ProjectGenerationTaskService {
 
 
     private static final String ATTACHMENT = "attachment";
@@ -24,10 +27,10 @@ public class TaskServiceImpl implements TaskService {
 
     private final ProjectGenerationTaskRepository repository;
 
-    private final FileService fileService;
+    private final ProjectGenerationFileService fileService;
 
-    public TaskServiceImpl(ProjectGenerationTaskRepository repository,
-                           FileService fileService) {
+    public ProjectGenerationTaskServiceImpl(ProjectGenerationTaskRepository repository,
+                                            ProjectGenerationFileService fileService) {
         this.repository = repository;
         this.fileService = fileService;
     }
@@ -43,16 +46,17 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public ProjectGenerationTask createTask(ProjectGenerationTask pgTask) {
-        pgTask.setCreationDate(new Date());
-        return repository.save(pgTask);
+    public ProjectGenerationTask createTask(ProjectGenerationTaskModel model) {
+        ProjectGenerationTask task = toTask(model);
+        task.setCreationDate(new Date());
+        return repository.save(task);
     }
 
     @Override
-    public ProjectGenerationTask update(String taskId, ProjectGenerationTask updatePgTask) {
-        ProjectGenerationTask existingPgTask = getTask(taskId);
-        existingPgTask.setName(updatePgTask.getName());
-        return existingPgTask;
+    public ProjectGenerationTask update(String taskId, ProjectGenerationTaskModel updateModel) {
+        ProjectGenerationTask existingTask = getTask(taskId);
+        existingTask.setName(updateModel.getName());
+        return existingTask;
     }
 
     @Override
@@ -62,9 +66,9 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public void executeTask(String taskId) {
-        ProjectGenerationTask pgTask = getTask(taskId);
-        String filePath = fileService.createAndStoreTaskFile(pgTask.getId());
-        pgTask.setStorageLocation(filePath);
+        ProjectGenerationTask task = getTask(taskId);
+        String filePath = fileService.createAndStoreTaskFile(task.getId());
+        task.setStorageLocation(filePath);
     }
 
     @Override
@@ -82,6 +86,12 @@ public class TaskServiceImpl implements TaskService {
         respHeaders.setContentType(MediaType.APPLICATION_OCTET_STREAM);
         respHeaders.setContentDispositionFormData(ATTACHMENT, CHALLENGE_ZIP);
         return new ResponseEntity<>(resource, respHeaders, HttpStatus.OK);
+    }
+
+    private ProjectGenerationTask toTask(ProjectGenerationTaskModel model) {
+        ProjectGenerationTask task = new ProjectGenerationTask();
+        task.setName(model.getName());
+        return task;
     }
 
 }

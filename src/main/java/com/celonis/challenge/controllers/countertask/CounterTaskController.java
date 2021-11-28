@@ -12,6 +12,10 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
+//TODO I have explicitly removed update method, because it would collide with execution operations and cause optimistic
+// locking exceptions on COUNTER_TASK table. To enable user updates on COUNTER_TASK execution counter must be moved to another table.
+// but that wouldmake implementation even more complex.
+
 @RestController
 @RequestMapping("/api/countertasks")
 public class CounterTaskController {

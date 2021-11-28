@@ -16,6 +16,6 @@ clnTaskManager:
   cors.allowedOrigin: "*"
   authheader.disabled: false
   counterTask:
-    timeoutMs: 10
+    timeoutMs: 5
     emitterDurationMs: 6000
     emitterStepMs: 10

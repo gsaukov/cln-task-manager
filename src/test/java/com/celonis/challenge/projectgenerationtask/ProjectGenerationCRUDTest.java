@@ -1,6 +1,7 @@
 package com.celonis.challenge.projectgenerationtask;
 
-import com.celonis.challenge.controllers.projectgenerationtask.TaskController;
+import com.celonis.challenge.controllers.projectgenerationtask.ProjectGenerationTaskController;
+import com.celonis.challenge.controllers.projectgenerationtask.ProjectGenerationTaskModel;
 import com.celonis.challenge.model.projectgenerationtask.ProjectGenerationTask;
 import com.celonis.challenge.model.projectgenerationtask.ProjectGenerationTaskRepository;
 import org.junit.jupiter.api.Test;
@@ -26,13 +27,13 @@ public class ProjectGenerationCRUDTest {
     ProjectGenerationTaskRepository repository;
 
     @Autowired
-    TaskController taskController;
+    ProjectGenerationTaskController taskController;
 
     @Test
     public void createNew_List_Get() {
         //given
         var taskName = "testTaskName";
-        var task = new ProjectGenerationTask();
+        var task = new ProjectGenerationTaskModel();
         task.setName(taskName);
         task.setCreationDate(getYesterday());
 
@@ -40,11 +41,12 @@ public class ProjectGenerationCRUDTest {
         var createdTask = taskController.createTask(task);
 
         //then
-        assertNotNull(repository.findById(createdTask.getId()).get());
+        var persistedTask = repository.findById(createdTask.getId()).get();
+        assertNotNull(persistedTask);
         assertEquals(taskName, createdTask.getName());
         assertTrue(Pattern.matches(UUID_PATTERN, createdTask.getId()));
         assertEquals(dateToString(new Date()), dateToString(createdTask.getCreationDate()));
-        assertNull(createdTask.getStorageLocation());
+        assertNull(persistedTask.getStorageLocation());
 
         var taskList = taskController.listTasks();
         assertFalse(taskList.isEmpty());
@@ -76,8 +78,8 @@ public class ProjectGenerationCRUDTest {
         assertTrue(repository.findById(updatedTask.getId()).isEmpty());
     }
 
-    private ProjectGenerationTask createTask() {
-        var task = new ProjectGenerationTask();
+    private ProjectGenerationTaskModel createTask() {
+        var task = new ProjectGenerationTaskModel();
         task.setName("testTaskName");
         return taskController.createTask(task);
     }
@@ -92,7 +94,7 @@ public class ProjectGenerationCRUDTest {
         return formatter.format(date);
     }
 
-    private boolean taskListHasTask(List<ProjectGenerationTask> tasks, String taskId) {
+    private boolean taskListHasTask(List<ProjectGenerationTaskModel> tasks, String taskId) {
         for (var task : tasks) {
             if (task.getId().equals(taskId)) {
                 return true;

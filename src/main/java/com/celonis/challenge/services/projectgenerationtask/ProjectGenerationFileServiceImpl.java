@@ -9,7 +9,7 @@ import java.io.*;
 import java.net.URL;
 
 @Service
-public class FileServiceImpl implements FileService {
+public class ProjectGenerationFileServiceImpl implements ProjectGenerationFileService {
 
     private static final String CHALLENGE_ZIP = "challenge.zip";
     private static final String FILE_SUFFIX = ".zip";

@@ -57,6 +57,15 @@ public class CounterTaskExecutionServiceImpl implements CounterTaskExecutionServ
     }
 
     @Override
+    public void deleteTask(String taskId) {
+        //just set status to stopped.
+        var runningTask = stateMap.get(taskId);
+        if(runningTask != null) {
+            runningTask.getStatus().set(CounterTaskStatus.STOPPED);
+        }
+    }
+
+    @Override
     public CounterTaskExecutionState getTaskState(String taskId) {
         //i dont like to return mutable object from here but for simplicity let it be.
         return stateMap.get(taskId);
