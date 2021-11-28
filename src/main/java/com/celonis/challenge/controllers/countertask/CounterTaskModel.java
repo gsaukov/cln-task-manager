@@ -26,11 +26,11 @@ public class CounterTaskModel {
     private String status;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updateAt;
 
     @AssertTrue(message = "Y must be greater X")

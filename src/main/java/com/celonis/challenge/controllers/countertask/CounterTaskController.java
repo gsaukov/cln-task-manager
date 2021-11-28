@@ -22,11 +22,8 @@ public class CounterTaskController {
 
     private final CounterTaskService counterTaskService;
 
-    private final CounterTaskExecutionStateEmitter executionStateEmitter;
-
-    public CounterTaskController(CounterTaskService counterTaskService, CounterTaskExecutionStateEmitter executionStateEmitter) {
+    public CounterTaskController(CounterTaskService counterTaskService) {
         this.counterTaskService = counterTaskService;
-        this.executionStateEmitter = executionStateEmitter;
     }
 
     @GetMapping("/")
@@ -69,10 +66,7 @@ public class CounterTaskController {
 
     @GetMapping("/{taskId}/taskState")
     public SseEmitter getTaskExecutionState(@PathVariable String taskId) {
-        SseEmitter sseEmitter = new SseEmitter(60000l);
-        sseEmitter.onTimeout(sseEmitter::complete);
-        executionStateEmitter.subscribeToExecutionEvents(sseEmitter, taskId);
-        return sseEmitter;
+        return counterTaskService.subscribeToExecutionEvents(taskId);
     }
 
     private CounterTaskModel toModel(CounterTask counterTask) {

@@ -6,17 +6,23 @@ import com.celonis.challenge.model.countertask.entity.CounterTaskStatus;
 import com.celonis.challenge.model.countertask.repository.CounterTaskRepository;
 import com.celonis.challenge.services.countertask.execution.CounterTaskExecutionService;
 import com.celonis.challenge.services.countertask.execution.CounterTaskExecutionState;
+import com.celonis.challenge.services.countertask.execution.CounterTaskExecutionStateEmitter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
 @Transactional
-public class CounterTaskServiceImpl implements CounterTaskService{
+public class CounterTaskServiceImpl implements CounterTaskService {
+
+//    @Value("${clnTaskManager.authheader.disabled}")
+//    private Long authHeaderDisabled;
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -24,9 +30,12 @@ public class CounterTaskServiceImpl implements CounterTaskService{
 
     private final CounterTaskExecutionService executionService;
 
-    public CounterTaskServiceImpl(CounterTaskRepository repository, CounterTaskExecutionService executionService) {
+    private final CounterTaskExecutionStateEmitter executionStateEmitter;
+
+    public CounterTaskServiceImpl(CounterTaskRepository repository, CounterTaskExecutionService executionService, CounterTaskExecutionStateEmitter executionStateEmitter) {
         this.repository = repository;
         this.executionService = executionService;
+        this.executionStateEmitter = executionStateEmitter;
     }
 
     @Override
@@ -54,7 +63,7 @@ public class CounterTaskServiceImpl implements CounterTaskService{
     @Override
     public void executeTask(String taskId) {
         CounterTask task = getTask(taskId);
-        if(task.getStatus().equals(CounterTaskStatus.ACTIVE)){
+        if (task.getStatus().equals(CounterTaskStatus.ACTIVE)) {
             executionService.executeTask(toExecutionState(task));
         } else {
             logger.info("Task is " + taskId + " not in ACTIVE state");
@@ -64,6 +73,14 @@ public class CounterTaskServiceImpl implements CounterTaskService{
     @Override
     public void stopTask(String taskId) {
         executionService.stopTask(getTask(taskId).getId());
+    }
+
+    @Override
+    public SseEmitter subscribeToExecutionEvents(String taskId) {
+        SseEmitter sseEmitter = new SseEmitter(60000l);
+        sseEmitter.onTimeout(sseEmitter::complete);
+        executionStateEmitter.subscribeToExecutionEvents(sseEmitter, taskId);
+        return sseEmitter;
     }
 
     private CounterTask toTask(CounterTaskModel model) {
