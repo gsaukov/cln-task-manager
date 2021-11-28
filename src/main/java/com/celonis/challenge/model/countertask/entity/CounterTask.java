@@ -19,13 +19,9 @@ public class CounterTask extends BaseEntity {
     @Column(name = "Y")
     private Integer y;
 
-    @JoinColumn(name = "COUNTER_STATE_ID", referencedColumnName = "ID")
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    private CounterTaskState counterTaskState;
-
     @Enumerated(EnumType.STRING)
     @Column(name = "STATUS")
-    private Status status;
+    private CounterTaskStatus status;
 
     protected CounterTask() {
         //hibernate
@@ -35,8 +31,7 @@ public class CounterTask extends BaseEntity {
         this.counterTaskName = counterTaskName;
         this.x = x;
         this.y = y;
-        this.status = Status.ACTIVE;
-        this.counterTaskState = new CounterTaskState(y - x);
+        this.status = CounterTaskStatus.ACTIVE;
     }
 
     public String getCounterTaskName() {
@@ -51,19 +46,19 @@ public class CounterTask extends BaseEntity {
         return x;
     }
 
+    public void setX(Integer x) {
+        this.x = x;
+    }
+
     public Integer getY() {
         return y;
     }
 
-    public CounterTaskState getCounterTaskState() {
-        return counterTaskState;
-    }
-
-    public Status getStatus() {
+    public CounterTaskStatus getStatus() {
         return status;
     }
 
-    public void setStatus(Status status) {
+    public void setStatus(CounterTaskStatus status) {
         this.status = status;
     }
 
@@ -78,11 +73,6 @@ public class CounterTask extends BaseEntity {
     @Override
     public int hashCode() {
         return Objects.hash(getId().hashCode());
-    }
-
-    public enum Status {
-        ACTIVE,
-        RUNNING;
     }
 
 }

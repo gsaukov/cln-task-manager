@@ -15,4 +15,8 @@ public interface CounterTaskService {
 
     void delete(String taskId);
 
+    void executeTask(String taskId);
+
+    void stopTask(String taskId);
+
 }

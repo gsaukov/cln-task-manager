@@ -1,7 +1,7 @@
 package com.celonis.challenge.controllers.countertask;
 
 import com.celonis.challenge.model.countertask.entity.CounterTask;
-import com.celonis.challenge.services.countertask.CounterTaskExecutionService;
+import com.celonis.challenge.services.countertask.execution.CounterTaskExecutionService;
 import com.celonis.challenge.services.countertask.CounterTaskService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,14 +55,14 @@ public class CounterTaskController {
     @PostMapping("/{taskId}/execute")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void executeTask(@PathVariable String taskId) {
-        executionService.executeTask(taskId);
+        counterTaskService.executeTask(taskId);
         logger.info("Execution started task id: " + taskId);
     }
 
     @PostMapping("/{taskId}/stop")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void stopTask(@PathVariable String taskId) {
-        executionService.stopTask(taskId);
+        counterTaskService.stopTask(taskId);
         logger.info("Execution stopped task id: " + taskId);
     }
 

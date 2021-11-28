@@ -3,9 +3,11 @@ package com.celonis.challenge.services.countertask;
 import com.celonis.challenge.controllers.countertask.CounterTaskModel;
 import com.celonis.challenge.model.countertask.entity.CounterTask;
 import com.celonis.challenge.model.countertask.repository.CounterTaskRepository;
+import com.celonis.challenge.services.countertask.execution.CounterTaskExecutionService;
+import com.celonis.challenge.services.countertask.execution.CounterTaskExecutionState;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -15,8 +17,11 @@ public class CounterTaskServiceImpl implements CounterTaskService{
 
     private final CounterTaskRepository repository;
 
-    public CounterTaskServiceImpl(CounterTaskRepository repository) {
+    private final CounterTaskExecutionService executionService;
+
+    public CounterTaskServiceImpl(CounterTaskRepository repository, CounterTaskExecutionService executionService) {
         this.repository = repository;
+        this.executionService = executionService;
     }
 
     @Override
@@ -36,10 +41,26 @@ public class CounterTaskServiceImpl implements CounterTaskService{
 
     @Override
     public void delete(String taskId) {
-        repository.deleteById(getTask(taskId).getId());
+        CounterTask task = getTask(taskId);
+        executionService.stopTask(task.getId());
+        repository.deleteById(task.getId());
+    }
+
+    @Override
+    public void executeTask(String taskId) {
+        executionService.executeTask(toExecutionState(getTask(taskId)));
+    }
+
+    @Override
+    public void stopTask(String taskId) {
+        executionService.stopTask(getTask(taskId).getId());
     }
 
     private CounterTask toTask(CounterTaskModel model) {
         return new CounterTask(model.getName(), model.getX(), model.getY());
+    }
+
+    private CounterTaskExecutionState toExecutionState(CounterTask task) {
+        return new CounterTaskExecutionState(task.getId(), task.getX(), task.getY());
     }
 }
