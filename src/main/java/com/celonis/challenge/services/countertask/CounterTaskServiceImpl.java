@@ -2,9 +2,12 @@ package com.celonis.challenge.services.countertask;
 
 import com.celonis.challenge.controllers.countertask.CounterTaskModel;
 import com.celonis.challenge.model.countertask.entity.CounterTask;
+import com.celonis.challenge.model.countertask.entity.CounterTaskStatus;
 import com.celonis.challenge.model.countertask.repository.CounterTaskRepository;
 import com.celonis.challenge.services.countertask.execution.CounterTaskExecutionService;
 import com.celonis.challenge.services.countertask.execution.CounterTaskExecutionState;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +17,8 @@ import java.util.NoSuchElementException;
 @Service
 @Transactional
 public class CounterTaskServiceImpl implements CounterTaskService{
+
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private final CounterTaskRepository repository;
 
@@ -48,7 +53,12 @@ public class CounterTaskServiceImpl implements CounterTaskService{
 
     @Override
     public void executeTask(String taskId) {
-        executionService.executeTask(toExecutionState(getTask(taskId)));
+        CounterTask task = getTask(taskId);
+        if(task.getStatus().equals(CounterTaskStatus.ACTIVE)){
+            executionService.executeTask(toExecutionState(task));
+        } else {
+            logger.info("Task is not in ACTIVE state");
+        }
     }
 
     @Override
