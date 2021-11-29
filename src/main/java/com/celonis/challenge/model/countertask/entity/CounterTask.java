@@ -3,8 +3,6 @@ package com.celonis.challenge.model.countertask.entity;
 import javax.persistence.*;
 import java.util.*;
 
-//TODO the idea is to have immutable task, and only increment state object.
-
 @Entity
 @Access(AccessType.FIELD)
 @Table(name = "COUNTER_TASK")

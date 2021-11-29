@@ -3,8 +3,6 @@ package com.celonis.challenge.countertask;
 import com.celonis.challenge.controllers.countertask.CounterTaskController;
 import com.celonis.challenge.controllers.countertask.CounterTaskModel;
 import com.celonis.challenge.model.countertask.entity.CounterTaskStatus;
-import com.celonis.challenge.model.countertask.repository.CounterTaskRepository;
-import com.celonis.challenge.services.countertask.execution.CounterTaskExecutionService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,13 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class CounterTaskConcurrentExecutionTest {
 
     @Autowired
-    CounterTaskRepository repository;
-
-    @Autowired
     CounterTaskController taskController;
-
-    @Autowired
-    CounterTaskExecutionService executionService;
 
     @Test
     public void runMultiple_stopSome_deleteSome_finishSome() throws InterruptedException {

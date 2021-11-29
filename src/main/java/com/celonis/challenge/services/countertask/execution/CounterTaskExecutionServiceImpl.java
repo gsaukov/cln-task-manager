@@ -28,9 +28,9 @@ public class CounterTaskExecutionServiceImpl implements CounterTaskExecutionServ
     @Async
     @Override
     public void executeTask(CounterTaskExecutionState task) {
-        var existingTask = stateMap.putIfAbsent(task.getId(), task);
+        CounterTaskExecutionState existingTask = stateMap.putIfAbsent(task.getId(), task);
         if (existingTask == null) {
-            var runningTask = stateMap.get(task.getId());
+            CounterTaskExecutionState runningTask = stateMap.get(task.getId());
             updateTask(runningTask); //set state from ACTIVE to RUNNING in db potential optimistic locking if invoking delete/ stop.
             while(runningTask.isRunning()) {
                 if(runningTask.getX().get() >= runningTask.getY() &&
@@ -49,7 +49,7 @@ public class CounterTaskExecutionServiceImpl implements CounterTaskExecutionServ
 
     @Override
     public void stopTask(String taskId) {
-        var runningTask = stateMap.get(taskId);
+        CounterTaskExecutionState runningTask = stateMap.get(taskId);
         //you can only stop RUNNING task and then update db accordingly.
         if(runningTask != null && runningTask.getStatus().compareAndSet(CounterTaskStatus.RUNNING, CounterTaskStatus.STOPPED)) {
             updateTask(runningTask);
@@ -59,7 +59,7 @@ public class CounterTaskExecutionServiceImpl implements CounterTaskExecutionServ
     @Override
     public void deleteTask(String taskId) {
         //just set status to stopped.
-        var runningTask = stateMap.get(taskId);
+        CounterTaskExecutionState runningTask = stateMap.get(taskId);
         if(runningTask != null) {
             runningTask.getStatus().set(CounterTaskStatus.STOPPED);
         }
