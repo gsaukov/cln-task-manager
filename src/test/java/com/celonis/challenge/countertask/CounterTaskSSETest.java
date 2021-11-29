@@ -2,6 +2,7 @@ package com.celonis.challenge.countertask;
 
 import com.celonis.challenge.controllers.countertask.CounterTaskController;
 import com.celonis.challenge.controllers.countertask.CounterTaskModel;
+import com.celonis.challenge.model.countertask.entity.CounterTaskStatus;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
@@ -58,7 +60,11 @@ public class CounterTaskSSETest {
         Thread.sleep(1000l);
 
         var events = getSSEEventData(result);
-
+        assertTrue(events.size() > 50);
+        var runningStatesCount = getStatusCount(events, CounterTaskStatus.RUNNING);
+        assertTrue(runningStatesCount > 0);
+        var finishedStatesCount = getStatusCount(events, CounterTaskStatus.FINISHED);
+        assertTrue(finishedStatesCount > 0);
     }
 
     private List<EventData> getSSEEventData(MvcResult result) throws Exception {
@@ -73,6 +79,10 @@ public class CounterTaskSSETest {
                     }
                 })
                 .collect(Collectors.toList());
+    }
+
+    private long getStatusCount(List<EventData> events, CounterTaskStatus status) {
+        return events.stream().filter(d -> d.getStatus().equals(status.toString())).count();
     }
 
     private CounterTaskModel createTask(int x, int y) {

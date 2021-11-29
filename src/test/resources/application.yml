@@ -11,11 +11,12 @@ spring:
   liquibase:
     enabled: false
 
+#it is default setup used for testing, if you change anything here tests might start falling.
 clnTaskManager:
   h2Enabled: false
   cors.allowedOrigin: "*"
   authheader.disabled: false
   counterTask:
     timeoutMs: 5
-    emitterDurationMs: 6000
+    emitterDurationMs: 2000
     emitterStepMs: 10
