@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 // but that wouldmake implementation even more complex.
 
 @RestController
-@RequestMapping("/api/countertasks")
+@RequestMapping("/api/v1/countertasks")
 public class CounterTaskController {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -37,7 +37,7 @@ public class CounterTaskController {
     @PostMapping("/")
     public CounterTaskModel createTask(@RequestBody @Valid CounterTaskModel ctTask) {
         CounterTask createdTask = counterTaskService.createTask(ctTask);
-        logger.info("Created task id: " + createdTask.getId());
+        logger.info("Created counter task id: " + createdTask.getId());
         return toModel(createdTask);
     }
 
@@ -50,7 +50,7 @@ public class CounterTaskController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteTask(@PathVariable String taskId) {
         counterTaskService.delete(taskId);
-        logger.info("Deleted task id: " + taskId);
+        logger.info("Deleted counter task id: " + taskId);
     }
 
     @PostMapping("/{taskId}/execute")
@@ -63,7 +63,7 @@ public class CounterTaskController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void stopTask(@PathVariable String taskId) {
         counterTaskService.stopTask(taskId);
-        logger.info("Execution stopped task id: " + taskId);
+        logger.info("Execution stopped counter task id: " + taskId);
     }
 
     @GetMapping("/{taskId}/taskstate")

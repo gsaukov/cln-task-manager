@@ -34,7 +34,7 @@ public class ProjectGenerationTaskController {
     @PostMapping("/")
     public ProjectGenerationTaskModel createTask(@RequestBody @Valid ProjectGenerationTaskModel model) {
         ProjectGenerationTask task = taskService.createTask(model);
-        logger.info("Created task id: " + task.getId());
+        logger.info("Created project generation task id: " + task.getId());
         return toModel(task);
     }
 
@@ -47,7 +47,7 @@ public class ProjectGenerationTaskController {
     public ProjectGenerationTaskModel updateTask(@PathVariable String taskId,
                                             @RequestBody @Valid ProjectGenerationTaskModel updateModel) {
         ProjectGenerationTask existingTask = taskService.update(taskId, updateModel);
-        logger.info("Updated task id: " + existingTask.getId());
+        logger.info("Updated project generation task id: " + existingTask.getId());
         return toModel(existingTask);
     }
 
@@ -55,14 +55,14 @@ public class ProjectGenerationTaskController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteTask(@PathVariable String taskId) {
         taskService.delete(taskId);
-        logger.info("Deleted task id: " + taskId);
+        logger.info("Deleted project generation task id: " + taskId);
     }
 
     @PostMapping("/{taskId}/execute")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void executeTask(@PathVariable String taskId) {
         taskService.executeTask(taskId);
-        logger.info("Executed task id: " + taskId);
+        logger.info("Executed project generation task id: " + taskId);
     }
 
     @GetMapping("/{taskId}/result")

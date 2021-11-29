@@ -40,7 +40,7 @@ public class CounterTaskValidationsTest {
         task.setX(100);
         task.setY(10);
         //when
-        var result = mockMvc.perform(post("/api/countertasks/")
+        var result = mockMvc.perform(post("/api/v1/countertasks/")
                         .contentType(MediaType.APPLICATION_JSON)
                         .header(HEADER_NAME, HEADER_VALUE)
                         .content(mapper.writeValueAsString(task)))
