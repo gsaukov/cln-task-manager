@@ -26,7 +26,6 @@ management:
     web:
       exposure:
         include: "*" #cluster health probe and discovery.
-
 clnTaskManager:
   h2Enabled: ${CLN_TM_H2_ENABLED:true}
   cors.allowedOrigin: ${CLN_TM_CORS_ALLOWED_ORIGIN:"*"}
@@ -35,6 +34,10 @@ clnTaskManager:
     timeoutMs: ${CLN_TM_COUNTER_TASK_TIMEOUT_MS:1000}
     emitterDurationMs: ${CLN_TM_COUNTER_TASK_EMITTER_DURATION_MS:60000}
     emitterStepMs: ${CLN_TM_COUNTER_TASK_EMITTER_STEP_MS:1000}
+  taskCleanup:
+    enabled: ${CLN_TM_COUNTER_TASK_CLEANUP_ENABLED:true}
+    schedule: ${CLN_TM_COUNTER_TASK_CLEANUP_SCHEDULE:0 02 * * *} #every day at 2am
+    createdDaysAgo: ${CLN_TM_COUNTER_TASK_CLEANUP_SCHEDULE:10}
 
 #http://localhost/swagger-ui.html it will not work if clnTaskManager.authheader.enabled true
 springdoc:
