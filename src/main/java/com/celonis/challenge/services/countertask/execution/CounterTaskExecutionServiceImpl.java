@@ -31,7 +31,7 @@ public class CounterTaskExecutionServiceImpl implements CounterTaskExecutionServ
         var existingTask = stateMap.putIfAbsent(task.getId(), task);
         if (existingTask == null) {
             var runningTask = stateMap.get(task.getId());
-            updateTask(runningTask); //set state from ACTIVE to RUNNING in db
+            updateTask(runningTask); //set state from ACTIVE to RUNNING in db potential optimistic locking if invoking delete/ stop.
             while(runningTask.isRunning()) {
                 if(runningTask.getX().get() >= runningTask.getY() &&
                         runningTask.getStatus().compareAndSet(CounterTaskStatus.RUNNING, CounterTaskStatus.FINISHED)) {
@@ -72,7 +72,7 @@ public class CounterTaskExecutionServiceImpl implements CounterTaskExecutionServ
     }
 
     private void updateTask(CounterTaskExecutionState task) {
-        synchronizer.updateTask(task);
+        synchronizer.synchronizeWithDB(task);
     }
 
     private void sleep(String taskId) {

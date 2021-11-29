@@ -65,7 +65,7 @@ public class CounterTaskServiceImpl implements CounterTaskService {
     public void executeTask(String taskId) {
         CounterTask task = getTask(taskId);
         if (task.getStatus().equals(CounterTaskStatus.ACTIVE)) {
-            executionService.executeTask(toExecutionState(task));
+            executionService.executeTask(CounterTaskExecutionState.createRunningTask(task));
         } else {
             logger.info("Task is " + taskId + " not in ACTIVE state");
         }
@@ -89,7 +89,4 @@ public class CounterTaskServiceImpl implements CounterTaskService {
         return new CounterTask(model.getName(), model.getX(), model.getY());
     }
 
-    private CounterTaskExecutionState toExecutionState(CounterTask task) {
-        return new CounterTaskExecutionState(task.getId(), task.getX(), task.getY());
-    }
 }

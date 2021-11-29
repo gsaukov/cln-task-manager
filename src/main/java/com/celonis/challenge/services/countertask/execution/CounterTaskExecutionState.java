@@ -1,5 +1,6 @@
 package com.celonis.challenge.services.countertask.execution;
 
+import com.celonis.challenge.model.countertask.entity.CounterTask;
 import com.celonis.challenge.model.countertask.entity.CounterTaskStatus;
 
 import java.util.concurrent.atomic.AtomicInteger;
@@ -15,11 +16,15 @@ public class CounterTaskExecutionState {
 
     private AtomicReference<CounterTaskStatus> status;
 
-    public CounterTaskExecutionState(String id, Integer x, Integer y) {
+    public static CounterTaskExecutionState createRunningTask(CounterTask task) {
+        return new CounterTaskExecutionState(task.getId(), task.getX(), task.getY(), CounterTaskStatus.RUNNING);
+    }
+
+    private CounterTaskExecutionState(String id, Integer x, Integer y, CounterTaskStatus status) {
         this.id = id;
         this.x = new AtomicInteger(x);
         this.y = y;
-        this.status = new AtomicReference<>(CounterTaskStatus.RUNNING);
+        this.status = new AtomicReference<>(status);
     }
 
     public String getId() {
@@ -41,6 +46,5 @@ public class CounterTaskExecutionState {
     public AtomicReference<CounterTaskStatus> getStatus() {
         return status;
     }
-
 
 }

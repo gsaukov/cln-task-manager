@@ -20,7 +20,7 @@ public class CounterTaskExecutionStateSynchronizerImpl implements CounterTaskExe
     }
 
     @Override
-    public void updateTask(CounterTaskExecutionState task) {
+    public void synchronizeWithDB(CounterTaskExecutionState task) {
         CounterTask persistedTask = repository.findById(task.getId()).get();
         if(persistedTask == null) {
             logger.info("Task " + task.getId() + " has been already deleted. Nothing to update");

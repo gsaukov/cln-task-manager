@@ -58,7 +58,6 @@ public class CounterTaskCRUDTest {
     public void createNew_Delete() {
         //given
         var task = createTask();
-        var newTaskName = "newTestTaskName";
 
         //when
         var createdTask = taskController.getTask(task.getId());
