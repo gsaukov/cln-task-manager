@@ -36,7 +36,7 @@ clnTaskManager:
     emitterStepMs: ${CLN_TM_COUNTER_TASK_EMITTER_STEP_MS:1000}
   taskCleanup:
     enabled: ${CLN_TM_COUNTER_TASK_CLEANUP_ENABLED:true}
-    schedule: ${CLN_TM_COUNTER_TASK_CLEANUP_SCHEDULE:0 02 * * *} #every day at 2am
+    schedule: ${CLN_TM_COUNTER_TASK_CLEANUP_SCHEDULE:0 0 02 * * *} #every day at 2am
     createdDaysAgo: ${CLN_TM_COUNTER_TASK_CLEANUP_SCHEDULE:10}
 
 #http://localhost/swagger-ui.html it will not work if clnTaskManager.authheader.enabled true
