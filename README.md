@@ -6,7 +6,7 @@ Task-manager was deeply analysed and reengineered from an existing platform, inh
 Those technology features are:
 * Gradle - Much faster and leaner than previously used tool.
 * Latest Spring boot framework that gives overwhelming integration capabilities with modern libraries and solutions.
-* Robust, modern and easy to maintain/deploy/container setup based on application properties exposure. Which allows application to be ran locally, on premise or in cluster without any redesign with all settings inversed as environment variables.
+* Robust, modern and easy to maintain/deploy/container setup based on application properties exposure. It allows application to be ran locally, on premise or in cluster without any redesign with all settings inversed as environment variables.
 * Reactive, resilient and transparent REST API with SSE and Classic Controllers enhanced by Swagger.
 * Spring context based testing that covers system with realistic tests on all layers from controllers to repositories.
 
@@ -18,7 +18,12 @@ Key take away from here was applications bussiness logic, API, and some naming i
 Application allows users CRUD operations over projectGenerationTasks.  
 Another feature is to let users execute these tasks, that would generate a new file from source file taken from the classpath resource. Newly generated file should be returned to the user and persisted in the local tempfolder. Path to newly generated file must be populated in task's field `storageLocation`.
 Finally, application was brought to maintainable, homogenous, working state, keeping in mind existing bussiness logic and API limitations.
+Worse to mention that projectGenerationTasks lacks database(optimistic locking) or aplication based concurency(locks, CAS) management, alowwing user overwrite results during uncontrolled parallel executions.
 
+### Task 2.
+Was implemented inline with given business requirmenets. Assuming that counterTsk **cannot be**:
+* Executed more than once .
+* Executed simulateneously.
 
 ## Back end components:
 * Gradle - Automates build.
