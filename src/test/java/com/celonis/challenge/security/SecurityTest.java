@@ -10,7 +10,10 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.options;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -47,7 +50,7 @@ public class SecurityTest {
     @Test
     public void optionsForUnauthorized() throws Exception {
         //given
-        var allowedMethods = "POST,GET,HEAD,OPTIONS";
+        var expectedAllowedMethods = Arrays.asList("POST", "GET", "HEAD", "OPTIONS");
         //when
         var result = mockMvc.perform(options("/api/tasks/")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -56,7 +59,13 @@ public class SecurityTest {
                 .andReturn();
 
         //then
-        assertEquals(allowedMethods, result.getResponse().getHeader(ALLOWED_HEADER));
+
+        var actualAllowedMethods = result.getResponse().getHeader(ALLOWED_HEADER);
+        for(var method : expectedAllowedMethods) {
+            assertTrue(actualAllowedMethods.contains(method));
+        }
     }
+
+
 
 }
