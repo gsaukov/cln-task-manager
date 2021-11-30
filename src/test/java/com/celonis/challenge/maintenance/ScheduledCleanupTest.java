@@ -39,21 +39,21 @@ public class ScheduledCleanupTest {
         createCounterTaskAndPersist(11);
         createCounterTaskAndPersist(12);
 
-        var youngProjectGenerationTaskId = createProjectGenerationTaskAndPersist(6);
+        var youngProjectGenerationTaskId = createProjectGenerationTaskAndPersist(6).getId();
         createProjectGenerationTaskAndPersist(11);
         createProjectGenerationTaskAndPersist(14);
 
         //when cleanup job executes every second it will remove old tasks.
         Thread.sleep(1500l);
 
-        //then
+        //then all Old task were removed and only young remains
         var counterTasks = counterTaskRepository.findAll();
         assertEquals(1, counterTasks.size());
-        assertTrue(counterTasks.get(0).getCounterTaskName().equals(youngCounterTaskId));
+        assertTrue(counterTasks.get(0).getId().equals(youngCounterTaskId));
 
-        var projectGenerationTasks = counterTaskRepository.findAll();
+        var projectGenerationTasks = projectGenerationTaskRepository.findAll();
         assertEquals(1, projectGenerationTasks.size());
-        assertTrue(projectGenerationTasks.get(0).getCounterTaskName().equals(youngProjectGenerationTaskId));
+        assertTrue(projectGenerationTasks.get(0).getId().equals(youngProjectGenerationTaskId));
     }
 
     private CounterTask createCounterTaskAndPersist(int daysAgo) throws NoSuchFieldException, IllegalAccessException {

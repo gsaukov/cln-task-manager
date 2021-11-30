@@ -11,12 +11,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 //TODO i ve made authsecurity on/off swith for ease of swagger testing.
-//TODO a bit confused here, doesn't preflight requests in spring work before any filters by default?
 @Component
 public class SimpleHeaderFilter extends OncePerRequestFilter {
 
     private final String HEADER_NAME = "Celonis-Auth";
     private final String HEADER_VALUE = "totally_secret";
+    private final String NOT_AUTHORIZED = "Not authorized";
+    private final String OPTIONS = "OPTIONS";
 
     @Value("${clnTaskManager.authheader.disabled}")
     private Boolean authHeaderDisabled;
@@ -30,7 +31,7 @@ public class SimpleHeaderFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
         // OPTIONS should always work
-        if (request.getMethod().equals("OPTIONS")) {
+        if (request.getMethod().equals(OPTIONS)) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -38,7 +39,7 @@ public class SimpleHeaderFilter extends OncePerRequestFilter {
         String val = request.getHeader(HEADER_NAME);
         if (val == null || !val.equals(HEADER_VALUE)) {
             response.setStatus(401);
-            response.getWriter().append("Not authorized");
+            response.getWriter().append(NOT_AUTHORIZED);
             return;
         }
         filterChain.doFilter(request, response);
