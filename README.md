@@ -21,9 +21,16 @@ Finally, application was brought to maintainable, homogenous, working state, kee
 Worse to mention that projectGenerationTasks lacks database(optimistic locking) or aplication based concurency(locks, CAS) management, alowwing user overwrite results during uncontrolled parallel executions.
 
 ### Task 2.
-Was implemented inline with given business requirmenets. Assuming that counterTsk **cannot be**:
-* Executed more than once .
-* Executed simulateneously.
+Was implemented inline with given business requirmenets. CounterTask and has following features:
+* Task Cannot be Reexecuted after stop or delete.
+* Task executionState **is Singleton**. (i.e. only one execution can occure at a time in application, you cannot invoke multiple parallel executions of the same counter).
+* Singleton counter can be incremented **by single thread only**.
+* Task state is exposed via SSE and Synchronized with DB.
+* **In Memory** Task execution concurrency management is non blocking and achived via Concurent Map and AtomicReference CAS operations.
+* **In Database** state synchronization management is achieved via Optimistic Locking. (There is at least one scenario of optimistic locking known<sup>*</sup>)
+
+### Task 3.
+The most straight forward task. `createdDaysAgo` tasks are deleted via scheduled cron job. 
 
 ## Back end components:
 * Gradle - Automates build.
@@ -37,6 +44,8 @@ Was implemented inline with given business requirmenets. Assuming that counterTs
 * Swagger - Rest API design and integration.
 * H2 DB - In memory Database .
 * Docker - Containerization platform.
+* JUnit - Developer side testing framework.
+* Spring Boot Starter Test - solid testing infrastructure.
 
 ### Build/Run steps
 
@@ -47,12 +56,12 @@ Or build/run it manually:
 ```sh
 You can clean build this server by executing:
 ./gradlew clean build
-This will generate build folder with ./cln-task-manager/build/libs/cln-task-manager.jar
+This will generate build folder with ./cln-task-manager/build/libs/CLN-TASK-MANAGER.jar
 To run:
-java -jar cln-task-manager.jar
+java -jar CLN-TASK-MANAGER.jar
 ```
 This will start the server on port 80.
-REST API Swagger available at http://localhost/swagger-ui/index.html#/
+REST API Swagger available at http://localhost/swagger-ui.html
 
 ### Containerization
 
@@ -60,7 +69,7 @@ Application is fully compliant with AWS cloud and its infrastructure, therefore 
 
 To containerize application manually:
 
-Clean build this server by executing: `./gradlew clean build` This will generate build folder with ./cln-task-manager/build/libs/cln-task-manager.jar  
+Clean build this server by executing: `./gradlew clean build` This will generate build folder with ./cln-task-manager/build/libs/CLN-TASK-MANAGER.jar  
 To build docker image run: `docker build --tag cln-task-manager:1.0`  
 To run docker image in container using composer:`docker-compose -f ./docker-compose.yml up -d cln-task-manager`
 
