@@ -21,6 +21,6 @@ clnTaskManager:
     emitterDurationMs: 2000
     emitterStepMs: 10
   taskCleanup:
-    enabled: ${CLN_TM_COUNTER_TASK_CLEANUP_ENABLED:false}
-    schedule: ${CLN_TM_COUNTER_TASK_CLEANUP_SCHEDULE:*/1 * * * * *} # every second
-    createdDaysAgo: ${CLN_TM_COUNTER_TASK_CLEANUP_SCHEDULE:10}
+    enabled: false
+    schedule: '*/1 * * * * *' # every second
+    createdDaysAgo: 10

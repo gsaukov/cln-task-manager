@@ -56,7 +56,7 @@ public class CounterTaskSSETest {
                 .andExpect(request().asyncStarted())
                 .andReturn();
 
-        //then
+        //then there were more than 50 events in RUNNING and FINISHED states
         Thread.sleep(1000l);
 
         var events = getSSEEventData(result);
