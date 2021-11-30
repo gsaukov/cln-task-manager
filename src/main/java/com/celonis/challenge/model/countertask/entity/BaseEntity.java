@@ -37,6 +37,7 @@ public abstract class BaseEntity implements Serializable {
         if(id == null) {
             id = uuid();
         }
+        createdAt = now();
     }
 
     public String getId() {
@@ -75,21 +76,14 @@ public abstract class BaseEntity implements Serializable {
 
     @PrePersist
     private void prePersist() {
-        String username = username();
-
-        createdBy = username;
-        updatedBy = username;
-
-        LocalDateTime now = now();
-
-        createdAt = now;
-        lastUpdated = now;
+        createdBy = username();
+        updatedBy = username();
+        lastUpdated = now();
     }
 
     @PreUpdate
     private void preUpdate() {
         updatedBy = username();
-
         lastUpdated = now();
     }
 
