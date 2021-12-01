@@ -10,9 +10,14 @@ spring:
     hikari:
       minimumIdle: ${CLN_TM_CONNECTIONPOOL_SIZE_MIN:2}
       maximumPoolSize: ${CLN_TM_CONNECTIONPOOL_SIZE_MAX:6}
-      idleTimeout: 30000
-      maxLifetime: 2000000
+      idleTimeout: ${CLN_TM_CONNECTIONPOOL_IDLE_TIMEOUT:30000}
+      maxLifetime: ${CLN_TM_CONNECTIONPOOL_MAX_LIFE_TIME:2000000}
       connectionTimeout: ${CLN_TM_CONNECTION_TIMEOUT:30000}
+  task:
+    execution:
+      pool:
+        coreSize: ${CLN_TM_THREAD_POOL_CORE_SIZE:16}
+        maxSize: ${CLN_TM_THREAD_POOL_MAX_SIZE:128}
 
   liquibase:
     change-log: classpath:db/changelog-master.yaml
@@ -29,7 +34,7 @@ management:
 clnTaskManager:
   h2Enabled: ${CLN_TM_H2_ENABLED:true}
   cors.allowedOrigin: ${CLN_TM_CORS_ALLOWED_ORIGIN:"*"}
-  authheader.disabled: ${CLN_TM_AUTH_HEADER_ENABLED:true}
+  authheader.disabled: ${CLN_TM_AUTH_HEADER_DISABLED:true}
   counterTask:
     timeoutMs: ${CLN_TM_COUNTER_TASK_TIMEOUT_MS:1000}
     emitterDurationMs: ${CLN_TM_COUNTER_TASK_EMITTER_DURATION_MS:60000}
@@ -37,7 +42,7 @@ clnTaskManager:
   taskCleanup:
     enabled: ${CLN_TM_COUNTER_TASK_CLEANUP_ENABLED:true}
     schedule: ${CLN_TM_COUNTER_TASK_CLEANUP_SCHEDULE:0 0 02 * * *} #every day at 2am
-    createdDaysAgo: ${CLN_TM_COUNTER_TASK_CLEANUP_SCHEDULE:10}
+    createdDaysAgo: ${CLN_TM_COUNTER_TASK_CLEANUP_CREATED_DAYS:10}
 
 #http://localhost/swagger-ui.html it will not work if clnTaskManager.authheader.enabled true
 springdoc:
