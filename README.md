@@ -2,8 +2,8 @@
 
 Task-manager in an application that is intended to allow users create, easily manage and execute tasks of two kind: ProjectGeneration and Counter.  
 Task-manager was deeply analysed and reengineered from an existing platform, inheriting all its core features and interfaces expanding it with new capabilities and technologies.  
-Challenge application was developed under influence of following factors: 
-* Clean, homogenous, maintainable code .
+Application was developed under influence of following factors: 
+* Clean, homogenous, maintainable code<sup>*</sup>.
 * Full testing coverage.
 * Cloud deployment readiness.
 
@@ -18,25 +18,25 @@ Technology features that were introduced are:
 
 ### Task 1. 
 Was to analyse or reverse engineer existing application with multiple malfunctions, poor architecture, lack of tests and necessary resources.  
-Key take away from here was applications bussiness logic, API, and some naming ideas. Bussiness logic was recognised as follows: 
+Key take away from here was application's bussiness logic, API, and some naming ideas. Bussiness logic was recognised as follows: 
 Application allows users CRUD operations over projectGenerationTasks.  
 Another feature is to let users execute these tasks, that would generate a new file from source file taken from the classpath resource. Newly generated file should be returned to the user and persisted in the local tempfolder. Path to newly generated file must be populated in task's field `storageLocation`.
 Finally, application was brought to maintainable, homogenous, working state, keeping in mind existing bussiness logic and API limitations.
-Worse to mention that projectGenerationTasks lacks database(optimistic locking) or aplication based concurency(locks, CAS) management, alowwing user overwrite results during uncontrolled parallel executions.
+Worse to mention that projectGenerationTasks lacks database(optimistic locking) or application based concurrency(locks, CAS) management, allowing user overwrite results during uncontrolled parallel executions.
 
 ### Task 2.
-Was implemented inline with given business requirmenets. CounterTask and has following features:
-* Task Cannot be Reexecuted after stop or delete.
-* Task executionState **is Singleton**. (i.e. only one execution can occure at a time in application, you cannot invoke multiple parallel executions of the same counter).
+Was implemented inline with given business requirements to instrument CounterTask. New task has following features:
+* Task Cannot be Reexecuted after it has been stopped, deleted, or finished.
+* Task executionState **is Singleton**. (i.e. only one execution can occur at a time in application, you cannot invoke multiple parallel executions of the same counter).
 * Singleton counter can be incremented **by single thread only**.
 * Task state is exposed via SSE and Synchronized with DB.
 * **In Memory** Task execution concurrency management is non blocking and achived via Concurent Map and AtomicReference CAS operations.
-* **In Database** state synchronization management is achieved via Optimistic Locking. (There is at least one scenario of optimistic locking known<sup>*</sup>)
+* **In Database** state synchronization management is achieved via Optimistic Locking. (There is at least one scenario of optimistic locking known<sup>**</sup>)
 
 ### Task 3.
 The most straight forward task. `createdDaysAgo` tasks are deleted via scheduled cron job. 
 
-## Back end components:
+## Back end anatomy:
 * Gradle - Automates build.
 * Java 11 - Core programming language.
 * Spring Boot - Backend core.
@@ -65,7 +65,8 @@ To run:
 java -jar CLN-TASK-MANAGER.jar
 ```
 This will start the server on port 80.
-REST API Swagger available at http://localhost/swagger-ui.html
+REST API Swagger available at http://localhost/swagger-ui.html  
+It will also start H2 database server `CLN_TM_H2_ENABLED` property, with user sa and connection string: jdbc:h2:tcp://localhost:9090/file:./data/db/clntaskmanager
 
 ### Containerization
 
@@ -100,7 +101,7 @@ Application is developed in "cloud ready" concepts and exposes all operational p
 |CLN_TM_DATASOURCE_PASSWORD| |Application DB password|
 |CLN_TM_DATASOURCE_DRIVER|org.h2.Driver|Database driver (`org.postgresql.Driver` and `org.h2.Driver` are allowed)|
 |CLN_TM_CONNECTIONPOOL_SIZE_MIN|2| Hikari pool min active DB connections|
-|CLN_TM_CONNECTIONPOOL_SIZE_MAX|6| Max active DB connections|
+|CLN_TM_CONNECTIONPOOL_SIZE_MAX|6| Max active DB connections, must be inlined with DB instance capacity|
 |CLN_TM_CONNECTIONPOOL_IDLE_TIMEOUT|30000|How long to keep alive idle connection|
 |CLN_TM_CONNECTIONPOOL_MAX_LIFE_TIME|2000000|Max connection lifetime before reconnect|
 |CLN_TM_CONNECTION_TIMEOUT|30000|How long client will wait for a connection|
@@ -111,13 +112,15 @@ Application is developed in "cloud ready" concepts and exposes all operational p
 |CLN_TM_CORS_ALLOWED_ORIGIN|"*"| CORS configuration setup, single host|
 |CLN_TM_AUTH_HEADER_DISABLED|true|Disable custom auth header filter, disabled for local setup|
 |CLN_TM_COUNTER_TASK_TIMEOUT_MS|1000| Counter task increment period|
-|CLN_TM_COUNTER_TASK_EMITTER_DURATION_MS|60000| Time period that holds user connection to task execution SSE events|
-|CLN_TM_COUNTER_TASK_EMITTER_STEP_MS|1000| How often execution SSE events are sent|
+|CLN_TM_COUNTER_TASK_EMITTER_DURATION_MS|60000| Life time period for user connection to consume task execution SSE events|
+|CLN_TM_COUNTER_TASK_EMITTER_STEP_MS|1000| How often execution SSE events are sent (Back pressure control)|
 |CLN_TM_COUNTER_TASK_CLEANUP_ENABLED|true|Disabled in testing context, to not to interfere with tests and introduce flickering behaviour|
 |CLN_TM_COUNTER_TASK_CLEANUP_SCHEDULE|0 0 02 * * *| Tasks cleanup schedule cron job every day at 2am|
 |CLN_TM_COUNTER_TASK_CLEANUP_CREATED_DAYS|10| Amount of days that should pass when task considered to be cleaned|
 
-Georgy Saukov
-Munich December 2021
+Georgy Saukov,  
+Munich, December 2021.
 
-<sup>*</sup> *Optimistic locking is possible in case user simultaneously executes and deletes active counterTask. This can be fixed by decoupling `CounterTaskExecutionStateSynchronizer` with the rest the of the services by introducing `ConcurrentLinkedQueue<CounterTaskExecutionState>` that would order incoming DB updates. It was decided not to introduce this fix in order to not to overload existing already complex implementation.*
+<sup>*</sup> *I have thought of reworking and addinng more things like: Add pageable to controllers, Unify db tables, in memory event queue, single generic task service interface and so on. But that I assume would add additional pressure on reviewers, and finally there should be some rational stop.*
+
+<sup>**</sup> *Optimistic locking is possible in case user simultaneously executes and deletes active counterTask. This can be fixed by decoupling `CounterTaskExecutionStateSynchronizer` with the rest the of the services by introducing `ConcurrentLinkedQueue<CounterTaskExecutionState>` that would order incoming DB updates. It was decided not to introduce this fix in order to not to overload existing already complex implementation.*
