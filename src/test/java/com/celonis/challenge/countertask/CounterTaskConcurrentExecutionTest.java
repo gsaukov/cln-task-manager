@@ -19,7 +19,7 @@ public class CounterTaskConcurrentExecutionTest {
     CounterTaskController taskController;
 
     @Test
-    public void runMultiple_stopSome_deleteSome_finishSome() throws InterruptedException {
+    public void run10_stop2_delete2_finish6() throws InterruptedException {
         //given
         var concurrentlyRunningTasks = createConcurrentlyRunningTasks(10);
         Thread.sleep(10l);

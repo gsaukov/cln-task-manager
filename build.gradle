@@ -25,6 +25,7 @@ dependencies {
     implementation "org.springdoc:springdoc-openapi-ui:${openApiVersion}"
 
     implementation "com.h2database:h2:${h2Version}"
+    implementation "org.postgresql:postgresql"
     runtimeOnly "org.liquibase:liquibase-core:${liquibaseVersion}"
 
     testImplementation "org.springframework.boot:spring-boot-starter-test"

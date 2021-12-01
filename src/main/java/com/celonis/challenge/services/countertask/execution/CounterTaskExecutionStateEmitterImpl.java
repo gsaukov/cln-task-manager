@@ -22,7 +22,7 @@ public class CounterTaskExecutionStateEmitterImpl implements CounterTaskExecutio
     public void subscribeToExecutionEvents(SseEmitter emitter, String taskId) {
         try {
             CounterTaskExecutionState executionState = executionService.getTaskState(taskId);
-            while (executionState!=null) {
+            while (executionState != null) {
                 SseEmitter.SseEventBuilder event = SseEmitter.event()
                         .id(Long.toString(System.currentTimeMillis()))
                         .data(executionState);
@@ -35,8 +35,8 @@ public class CounterTaskExecutionStateEmitterImpl implements CounterTaskExecutio
                     .data("No Task with " + taskId + " running");
             emitter.send(event);
             emitter.complete();
-        } catch (Exception ex) {
-            emitter.completeWithError(ex);
+        } catch (Exception e) {
+            emitter.completeWithError(e);
         }
     }
 
