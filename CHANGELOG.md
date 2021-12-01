@@ -1,3 +1,6 @@
+## 1.0
+ - [TASK-4] - Containerization, readme, release version. 
+
 ## 0.3.0
  - [TASK-3] - The API can be used to create tasks, but the user is not required to execute those tasks.
    The tasks that are not executed after an extended period (e.g. a week) should be periodically cleaned up (deleted).
