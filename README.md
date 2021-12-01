@@ -1,9 +1,13 @@
-# Cln-task-manager - Async task manager, challenge application
+# Cln-task-manager - Asynchronous task manager, challenge application.
 
-Application is intended to allow users create and manage various tasks, including asynchronous.  
+Task-manager in an application that is intended to allow users create, easily manage and execute tasks of two kind: ProjectGeneration and Counter.  
 Task-manager was deeply analysed and reengineered from an existing platform, inheriting all its core features and interfaces expanding it with new capabilities and technologies.  
+Challenge application was developed under influence of following factors: 
+* Clean, homogenous, maintainable code .
+* Full testing coverage.
+* Cloud deployment readiness.
 
-Those technology features are:
+Technology features that were introduced are:
 * Gradle - Much faster and leaner than previously used tool.
 * Latest Spring boot framework that gives overwhelming integration capabilities with modern libraries and solutions.
 * Robust, modern and easy to maintain/deploy/container setup based on application properties exposure. It allows application to be ran locally, on premise or in cluster without any redesign with all settings inversed as environment variables.
@@ -42,10 +46,10 @@ The most straight forward task. `createdDaysAgo` tasks are deleted via scheduled
 * Java Concurrent - Multi-threading and asynchronous tasking.
 * Liquibase - Database schema control.
 * Swagger - Rest API design and integration.
-* H2 DB - In memory Database .
+* H2 DB - In memory Database.
 * Docker - Containerization platform.
 * JUnit - Developer side testing framework.
-* Spring Boot Starter Test - solid testing infrastructure.
+* Spring Boot Starter Test - solid testing infrastructure and capabilities.
 
 ### Build/Run steps
 
@@ -70,12 +74,50 @@ Application is fully compliant with AWS cloud and its infrastructure, therefore 
 To containerize application manually:
 
 Clean build this server by executing: `./gradlew clean build` This will generate build folder with ./cln-task-manager/build/libs/CLN-TASK-MANAGER.jar  
-To build docker image run: `docker build --tag cln-task-manager:1.0`  
+To build docker image run: `docker build --tag cln-task-manager:1.0 .`  
 To run docker image in container using composer:`docker-compose -f ./docker-compose.yml up -d cln-task-manager`
 
-### Testing
-Full testing coverage is achieved by layers:
+## Testing
+Testing scope is divided in 4 functional domains with which each one of them split by deeper functional detalization:
+* security
+* countertask
+* maintenance
+* projectgenerationtask 
+ 
+Test are written using spring boot testing tools that grants context and running conditions equivalent to real.  
+SpringBootTest/WebMvcTest/DataJpaTest test configurations allow limitless influence and condition simulations over application with unrestricted access to system's internals. Full testing coverage could be achieved by expanding existing test library with additional tests.
 
-* **Unit** - Covers particular Service or class. Example: 
-* **Component** - Aimed to test group of components in defined spring context. Database, controllers and external REST API is mocked. 
-* **Integration (E2E)** - Integration or end-to-end test based on custom build framework that can interact with REST API, Databases, Message brokers and other supported programming interfaces. Applicable for testing real back end applications staged on UAT, Staging or any other PROD simulating environment. Example: 
+## Environment
+
+Application is developed in "cloud ready" concepts and exposes all operational parameters as environment variables. This parameters has to be managed and injected into the container via cluster config and secret maps.
+
+### Active Environment variables list
+
+| Environment variable name | Default value | Description |
+| :--- | :--- | :--- |
+|CLN_TM_DATASOURCE_URL|jdbc:h2:file:./data/db/clntaskmanager; MODE=PostgreSQL| Application DB connection string|
+|CLN_TM_DATASOURCE_USER|sa|Application DB user name|
+|CLN_TM_DATASOURCE_PASSWORD| |Application DB password|
+|CLN_TM_DATASOURCE_DRIVER|org.h2.Driver|Database driver (`org.postgresql.Driver` and `org.h2.Driver` are allowed)|
+|CLN_TM_CONNECTIONPOOL_SIZE_MIN|2| Hikari pool min active DB connections|
+|CLN_TM_CONNECTIONPOOL_SIZE_MAX|6| Max active DB connections|
+|CLN_TM_CONNECTIONPOOL_IDLE_TIMEOUT|30000|How long to keep alive idle connection|
+|CLN_TM_CONNECTIONPOOL_MAX_LIFE_TIME|2000000|Max connection lifetime before reconnect|
+|CLN_TM_CONNECTION_TIMEOUT|30000|How long client will wait for a connection|
+|CLN_TM_THREAD_POOL_CORE_SIZE|8|@Async configuration bottom line|
+|CLN_TM_THREAD_POOL_MAX_SIZE|128|@Async configuration bottom max must be aligned with node resources|
+|CLN_TM_SERVER_PORT|80| Unsecure HTTP traffic |
+|CLN_TM_H2_ENABLED|true| Enables in memory h2 database, only for local development and testing|
+|CLN_TM_CORS_ALLOWED_ORIGIN|"*"| CORS configuration setup, single host|
+|CLN_TM_AUTH_HEADER_DISABLED|true|Disable custom auth header filter, disabled for local setup|
+|CLN_TM_COUNTER_TASK_TIMEOUT_MS|1000| Counter task increment period|
+|CLN_TM_COUNTER_TASK_EMITTER_DURATION_MS|60000| Time period that holds user connection to task execution SSE events|
+|CLN_TM_COUNTER_TASK_EMITTER_STEP_MS|1000| How often execution SSE events are sent|
+|CLN_TM_COUNTER_TASK_CLEANUP_ENABLED|true|Disabled in testing context, to not to interfere with tests and introduce flickering behaviour|
+|CLN_TM_COUNTER_TASK_CLEANUP_SCHEDULE|0 0 02 * * *| Tasks cleanup schedule cron job every day at 2am|
+|CLN_TM_COUNTER_TASK_CLEANUP_CREATED_DAYS|10| Amount of days that should pass when task considered to be cleaned|
+
+Georgy Saukov
+Munich December 2021
+
+<sup>*</sup> *Optimistic locking is possible in case user simultaneously executes and deletes active counterTask. This can be fixed by decoupling `CounterTaskExecutionStateSynchronizer` with the rest the of the services by introducing `ConcurrentLinkedQueue<CounterTaskExecutionState>` that would order incoming DB updates. It was decided not to introduce this fix in order to not to overload existing already complex implementation.*
