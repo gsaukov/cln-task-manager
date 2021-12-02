@@ -121,6 +121,6 @@ Application is developed in "cloud ready" concepts and exposes all operational p
 Georgy Saukov,  
 Munich, December 2021.
 
-<sup>*</sup> *I have thought of reworking and addinng more things like: Add pageable to controllers, Unify db tables, in memory event queue, single generic task service interface and so on. But that I assume would add additional pressure on reviewers, and finally there should be some rational stop.*
+<sup>*</sup> *I have thought of reworking and adding more things like: Add pageable to controllers, Unify entities, in memory event queue, single generic task service interface and so on. But that I assume would add additional pressure on reviewers, and finally there should be some rational stop.*
 
 <sup>**</sup> *Optimistic locking is possible in case user simultaneously executes and deletes active counterTask. This can be fixed by decoupling `CounterTaskExecutionStateSynchronizer` with the rest the of the services by introducing `ConcurrentLinkedQueue<CounterTaskExecutionState>` that would order incoming DB updates. It was decided not to introduce this fix in order to not to overload existing already complex implementation.*
