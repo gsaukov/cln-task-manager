@@ -1,6 +1,6 @@
 # Cln-task-manager - Asynchronous task manager, challenge application.
 
-Task-manager in an application that is intended to allow users create, easily manage and execute tasks of two kind: ProjectGeneration and Counter.  
+Task-manager is a SoringBoot application that is intended to allow users create, easily manage and execute tasks of two kind: ProjectGeneration and Counter.  
 Task-manager was deeply analysed and reengineered from an existing platform, inheriting all its core features and interfaces expanding it with new capabilities and technologies.  
 Application was developed under influence of following factors: 
 * Clean, homogenous, maintainable code<sup>*</sup>.
@@ -60,7 +60,7 @@ Or build/run it manually:
 ```sh
 You can clean build this server by executing:
 ./gradlew clean build
-To add path specific java use argument: -Dorg.gradle.java.home=<PATH TO JAVA>
+To add path to specific java use argument: -Dorg.gradle.java.home=<PATH TO JAVA>
 This will generate build folder with ./cln-task-manager/build/libs/CLN-TASK-MANAGER.jar
 To run:
 java -jar CLN-TASK-MANAGER.jar
