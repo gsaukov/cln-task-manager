@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.net.URL;
+import java.util.UUID;
 
 @Service
 public class ProjectGenerationFileServiceImpl implements ProjectGenerationFileService {
@@ -25,7 +26,7 @@ public class ProjectGenerationFileServiceImpl implements ProjectGenerationFileSe
     }
 
     @Override
-    public String createAndStoreTaskFile(String taskId) {
+    public String createAndStoreTaskFile(UUID taskId) {
         URL url = getSourceFileUrl();
         File outputFile = createOutputFile(taskId);
         try (InputStream is = url.openStream();
@@ -37,9 +38,9 @@ public class ProjectGenerationFileServiceImpl implements ProjectGenerationFileSe
         }
     }
 
-    private File createOutputFile(String taskId) {
+    private File createOutputFile(UUID taskId) {
         try {
-            File outputFile = File.createTempFile(taskId, FILE_SUFFIX);
+            File outputFile = File.createTempFile(taskId.toString(), FILE_SUFFIX);
             outputFile.deleteOnExit();
             return outputFile;
         } catch (IOException e) {

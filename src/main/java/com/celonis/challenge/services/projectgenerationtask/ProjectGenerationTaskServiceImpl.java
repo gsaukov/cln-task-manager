@@ -1,8 +1,6 @@
 package com.celonis.challenge.services.projectgenerationtask;
 
-import com.celonis.challenge.controllers.countertask.CounterTaskModel;
 import com.celonis.challenge.controllers.projectgenerationtask.ProjectGenerationTaskModel;
-import com.celonis.challenge.model.countertask.entity.CounterTask;
 import com.celonis.challenge.model.projectgenerationtask.ProjectGenerationTask;
 import com.celonis.challenge.model.projectgenerationtask.ProjectGenerationTaskRepository;
 import org.springframework.core.io.FileSystemResource;
@@ -16,11 +14,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.UUID;
 
 @Service
 @Transactional
 public class ProjectGenerationTaskServiceImpl implements ProjectGenerationTaskService {
-
 
     private static final String ATTACHMENT = "attachment";
     private static final String CHALLENGE_ZIP = "challenge.zip";
@@ -36,7 +34,7 @@ public class ProjectGenerationTaskServiceImpl implements ProjectGenerationTaskSe
     }
 
     @Override
-    public ProjectGenerationTask getTask(String taskId) {
+    public ProjectGenerationTask getTask(UUID taskId) {
         return repository.findById(taskId).orElseThrow(NoSuchElementException::new);
     }
 
@@ -53,31 +51,31 @@ public class ProjectGenerationTaskServiceImpl implements ProjectGenerationTaskSe
     }
 
     @Override
-    public ProjectGenerationTask update(String taskId, ProjectGenerationTaskModel updateModel) {
+    public ProjectGenerationTask update(UUID taskId, ProjectGenerationTaskModel updateModel) {
         ProjectGenerationTask existingTask = getTask(taskId);
         existingTask.setName(updateModel.getName());
         return existingTask;
     }
 
     @Override
-    public void delete(String taskId) {
+    public void delete(UUID taskId) {
         repository.deleteById(getTask(taskId).getId());
     }
 
     @Override
-    public void executeTask(String taskId) {
+    public void executeTask(UUID taskId) {
         ProjectGenerationTask task = getTask(taskId);
         String filePath = fileService.createAndStoreTaskFile(task.getId());
         task.setStorageLocation(filePath);
     }
 
     @Override
-    public ResponseEntity<FileSystemResource> getTaskResultFile(String taskId) {
-        ProjectGenerationTask pgTask = getTask(taskId);
-        if (pgTask.getStorageLocation() == null) {
+    public ResponseEntity<FileSystemResource> getTaskResultFile(UUID taskId) {
+        ProjectGenerationTask task = getTask(taskId);
+        if (task.getStorageLocation() == null) {
             throw new IllegalStateException("File not generated yet");
         }
-        FileSystemResource resource = fileService.getTaskFileFromStorage(pgTask.getStorageLocation());
+        FileSystemResource resource = fileService.getTaskFileFromStorage(task.getStorageLocation());
         return prepareFileResponse(resource);
     }
 

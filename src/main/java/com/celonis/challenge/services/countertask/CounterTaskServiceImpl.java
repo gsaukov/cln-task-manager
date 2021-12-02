@@ -16,6 +16,7 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -40,7 +41,7 @@ public class CounterTaskServiceImpl implements CounterTaskService {
     }
 
     @Override
-    public CounterTask getTask(String taskId) {
+    public CounterTask getTask(UUID taskId) {
         return repository.findById(taskId).orElseThrow(NoSuchElementException::new);
     }
 
@@ -55,14 +56,14 @@ public class CounterTaskServiceImpl implements CounterTaskService {
     }
 
     @Override
-    public void delete(String taskId) {
+    public void delete(UUID taskId) {
         CounterTask task = getTask(taskId);
         executionService.deleteTask(task.getId()); //optimistic locking safe just sets status to stopped
         repository.deleteById(task.getId());
     }
 
     @Override
-    public void executeTask(String taskId) {
+    public void executeTask(UUID taskId) {
         CounterTask task = getTask(taskId);
         if (task.getStatus().equals(CounterTaskStatus.ACTIVE)) {
             executionService.executeTask(CounterTaskExecutionState.createRunningTask(task));
@@ -72,12 +73,12 @@ public class CounterTaskServiceImpl implements CounterTaskService {
     }
 
     @Override
-    public void stopTask(String taskId) {
+    public void stopTask(UUID taskId) {
         executionService.stopTask(getTask(taskId).getId());
     }
 
     @Override
-    public SseEmitter subscribeToExecutionEvents(String taskId) {
+    public SseEmitter subscribeToExecutionEvents(UUID taskId) {
         CounterTask task = getTask(taskId);
         SseEmitter sseEmitter = new SseEmitter(emitterDurationMs);
         sseEmitter.onTimeout(sseEmitter::complete);

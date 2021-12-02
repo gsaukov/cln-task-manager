@@ -10,11 +10,12 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 //TODO I have explicitly removed update method, because it would collide with execution operations and cause optimistic
 // locking exceptions on COUNTER_TASK table. To enable user updates on COUNTER_TASK execution counter must be moved to another table.
-// but that wouldmake implementation even more complex.
+// but that would make implementation even more complex.
 
 @RestController
 @RequestMapping("/api/v1/countertasks")
@@ -42,32 +43,32 @@ public class CounterTaskController {
     }
 
     @GetMapping("/{taskId}")
-    public CounterTaskModel getTask(@PathVariable String taskId) {
+    public CounterTaskModel getTask(@PathVariable UUID taskId) {
         return toModel(counterTaskService.getTask(taskId));
     }
 
     @DeleteMapping("/{taskId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteTask(@PathVariable String taskId) {
+    public void deleteTask(@PathVariable UUID taskId) {
         counterTaskService.delete(taskId);
         logger.info("Deleted counter task id: " + taskId);
     }
 
     @PostMapping("/{taskId}/execute")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void executeTask(@PathVariable String taskId) {
+    public void executeTask(@PathVariable UUID taskId) {
         counterTaskService.executeTask(taskId);
     }
 
     @PostMapping("/{taskId}/stop")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void stopTask(@PathVariable String taskId) {
+    public void stopTask(@PathVariable UUID taskId) {
         counterTaskService.stopTask(taskId);
         logger.info("Execution stopped counter task id: " + taskId);
     }
 
     @GetMapping("/{taskId}/taskstate")
-    public SseEmitter getTaskExecutionState(@PathVariable String taskId) {
+    public SseEmitter getTaskExecutionState(@PathVariable UUID taskId) {
         return counterTaskService.subscribeToExecutionEvents(taskId);
     }
 

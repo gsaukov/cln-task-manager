@@ -6,20 +6,21 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface ProjectGenerationTaskService {
 
-    ProjectGenerationTask getTask(String taskId);
+    ProjectGenerationTask getTask(UUID taskId);
 
     List<ProjectGenerationTask> listTasks();
 
     ProjectGenerationTask createTask(ProjectGenerationTaskModel model);
 
-    ProjectGenerationTask update(String taskId, ProjectGenerationTaskModel updateModel);
+    ProjectGenerationTask update(UUID taskId, ProjectGenerationTaskModel updateModel);
 
-    void delete(String taskId);
+    void delete(UUID taskId);
 
-    void executeTask(String taskId);
+    void executeTask(UUID taskId);
 
-    ResponseEntity<FileSystemResource> getTaskResultFile(String taskId);
+    ResponseEntity<FileSystemResource> getTaskResultFile(UUID taskId);
 }

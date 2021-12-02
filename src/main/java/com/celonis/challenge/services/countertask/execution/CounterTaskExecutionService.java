@@ -1,13 +1,15 @@
 package com.celonis.challenge.services.countertask.execution;
 
+import java.util.UUID;
+
 public interface CounterTaskExecutionService {
 
     void executeTask(CounterTaskExecutionState task);
 
-    void stopTask(String taskId);
+    void stopTask(UUID taskId);
 
-    void deleteTask(String taskId);
+    void deleteTask(UUID taskId);
 
-    CounterTaskExecutionState getTaskState(String taskId);
+    CounterTaskExecutionState getTaskState(UUID taskId);
 
 }

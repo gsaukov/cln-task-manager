@@ -13,6 +13,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import java.util.regex.Pattern;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -20,7 +21,6 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 public class ProjectGenerationCRUDTest {
 
-    private static final String UUID_PATTERN = "([a-f0-9]{8}(-[a-f0-9]{4}){4}[a-f0-9]{8})";
     private static final String DATE_PATTERN = "yyyy-MM-dd";
 
     @Autowired
@@ -44,7 +44,6 @@ public class ProjectGenerationCRUDTest {
         var persistedTask = repository.findById(createdTask.getId()).get();
         assertNotNull(persistedTask);
         assertEquals(taskName, createdTask.getName());
-        assertTrue(Pattern.matches(UUID_PATTERN, createdTask.getId()));
         assertEquals(dateToString(new Date()), dateToString(createdTask.getCreationDate()));
         assertNull(persistedTask.getStorageLocation());
 
@@ -94,7 +93,7 @@ public class ProjectGenerationCRUDTest {
         return formatter.format(date);
     }
 
-    private boolean taskListHasTask(List<ProjectGenerationTaskModel> tasks, String taskId) {
+    private boolean taskListHasTask(List<ProjectGenerationTaskModel> tasks, UUID taskId) {
         for (var task : tasks) {
             if (task.getId().equals(taskId)) {
                 return true;

@@ -5,21 +5,22 @@ import com.celonis.challenge.model.countertask.entity.CounterTask;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface CounterTaskService {
 
-    CounterTask getTask(String taskId);
+    CounterTask getTask(UUID taskId);
 
     List<CounterTask> listTasks();
 
     CounterTask createTask(CounterTaskModel ctTask);
 
-    void delete(String taskId);
+    void delete(UUID taskId);
 
-    void executeTask(String taskId);
+    void executeTask(UUID taskId);
 
-    void stopTask(String taskId);
+    void stopTask(UUID taskId);
 
-    SseEmitter subscribeToExecutionEvents(String taskId);
+    SseEmitter subscribeToExecutionEvents(UUID taskId);
 
 }

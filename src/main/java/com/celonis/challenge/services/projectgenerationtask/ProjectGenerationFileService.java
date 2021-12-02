@@ -2,10 +2,12 @@ package com.celonis.challenge.services.projectgenerationtask;
 
 import org.springframework.core.io.FileSystemResource;
 
+import java.util.UUID;
+
 public interface ProjectGenerationFileService {
 
     FileSystemResource getTaskFileFromStorage(String storageLocation);
 
-    String createAndStoreTaskFile(String taskId);
+    String createAndStoreTaskFile(UUID taskId);
 
 }

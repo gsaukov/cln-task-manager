@@ -9,13 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.NoSuchElementException;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class ProjectGenerationExceptionsTest {
 
-    private static final String DO_NOT_EXIST = "DO_NOT_EXIST";
+    private static final UUID DO_NOT_EXIST = UUID.randomUUID();
 
     @Autowired
     ProjectGenerationTaskRepository repository;

@@ -8,9 +8,10 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Repository
-public interface CounterTaskRepository extends JpaRepository<CounterTask, String>, JpaSpecificationExecutor<CounterTask> {
+public interface CounterTaskRepository extends JpaRepository<CounterTask, UUID>, JpaSpecificationExecutor<CounterTask> {
 
     List<CounterTask> findAllByCreatedAtIsBefore(LocalDateTime date);
 

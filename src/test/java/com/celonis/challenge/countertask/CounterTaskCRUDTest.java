@@ -7,12 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.text.SimpleDateFormat;
-import java.time.Duration;
-import java.time.Instant;
-import java.util.Date;
 import java.util.List;
-import java.util.regex.Pattern;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -81,7 +77,7 @@ public class CounterTaskCRUDTest {
     }
 
 
-    private boolean taskListHasTask(List<CounterTaskModel> tasks, String taskId) {
+    private boolean taskListHasTask(List<CounterTaskModel> tasks, UUID taskId) {
         for (var task : tasks) {
             if (task.getId().equals(taskId)) {
                 return true;

@@ -3,12 +3,13 @@ package com.celonis.challenge.services.countertask.execution;
 import com.celonis.challenge.model.countertask.entity.CounterTask;
 import com.celonis.challenge.model.countertask.entity.CounterTaskStatus;
 
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class CounterTaskExecutionState {
 
-    private final String id;
+    private final UUID id;
 
     private final AtomicInteger x;
 
@@ -20,14 +21,14 @@ public class CounterTaskExecutionState {
         return new CounterTaskExecutionState(task.getId(), task.getX(), task.getY(), CounterTaskStatus.RUNNING);
     }
 
-    private CounterTaskExecutionState(String id, Integer x, Integer y, CounterTaskStatus status) {
+    private CounterTaskExecutionState(UUID id, Integer x, Integer y, CounterTaskStatus status) {
         this.id = id;
         this.x = new AtomicInteger(x);
         this.y = y;
         this.status = new AtomicReference<>(status);
     }
 
-    public String getId() {
+    public UUID getId() {
         return id;
     }
 

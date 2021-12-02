@@ -5,6 +5,8 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import java.util.UUID;
+
 @Service
 public class CounterTaskExecutionStateEmitterImpl implements CounterTaskExecutionStateEmitter {
 
@@ -19,7 +21,7 @@ public class CounterTaskExecutionStateEmitterImpl implements CounterTaskExecutio
 
     @Async
     @Override
-    public void subscribeToExecutionEvents(SseEmitter emitter, String taskId) {
+    public void subscribeToExecutionEvents(SseEmitter emitter, UUID taskId) {
         try {
             CounterTaskExecutionState executionState = executionService.getTaskState(taskId);
             while (executionState != null) {

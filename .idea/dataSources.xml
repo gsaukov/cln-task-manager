@@ -8,5 +8,12 @@
       <jdbc-url>jdbc:h2:tcp://localhost:9090/file:./data/db/clntaskmanager</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="PostgreSQL - cln-task-manager-db@loclhost" uuid="9da630f2-94c8-4c32-83f7-c5f38638243f">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://localhost:5432/cln-task-manager-db</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>

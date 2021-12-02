@@ -4,6 +4,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.UUID;
 
 @Entity
 @Access(AccessType.FIELD)
@@ -14,7 +15,7 @@ public class ProjectGenerationTask {
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(name = "ID")
-    private String id;
+    private UUID id;
 
     @Column(name = "NAME")
     private String name;
@@ -25,7 +26,7 @@ public class ProjectGenerationTask {
     @Column(name = "STORAGE_LOCATION")
     private String storageLocation;
 
-    public String getId() {
+    public UUID getId() {
         return id;
     }
 

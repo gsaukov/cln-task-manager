@@ -6,11 +6,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.validation.constraints.*;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public class CounterTaskModel {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private String id;
+    private UUID id;
 
     @NotNull
     @Size(min = 3, max = 128)
@@ -38,11 +39,11 @@ public class CounterTaskModel {
         return y > x;
     }
 
-    public String getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

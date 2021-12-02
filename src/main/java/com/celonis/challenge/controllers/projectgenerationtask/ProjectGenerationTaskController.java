@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
@@ -39,12 +40,12 @@ public class ProjectGenerationTaskController {
     }
 
     @GetMapping("/{taskId}")
-    public ProjectGenerationTaskModel getTask(@PathVariable String taskId) {
+    public ProjectGenerationTaskModel getTask(@PathVariable UUID taskId) {
         return toModel(taskService.getTask(taskId));
     }
 
     @PutMapping(path = "/{taskId}")
-    public ProjectGenerationTaskModel updateTask(@PathVariable String taskId,
+    public ProjectGenerationTaskModel updateTask(@PathVariable UUID taskId,
                                             @RequestBody @Valid ProjectGenerationTaskModel updateModel) {
         ProjectGenerationTask existingTask = taskService.update(taskId, updateModel);
         logger.info("Updated project generation task id: " + existingTask.getId());
@@ -53,20 +54,20 @@ public class ProjectGenerationTaskController {
 
     @DeleteMapping("/{taskId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteTask(@PathVariable String taskId) {
+    public void deleteTask(@PathVariable UUID taskId) {
         taskService.delete(taskId);
         logger.info("Deleted project generation task id: " + taskId);
     }
 
     @PostMapping("/{taskId}/execute")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void executeTask(@PathVariable String taskId) {
+    public void executeTask(@PathVariable UUID taskId) {
         taskService.executeTask(taskId);
         logger.info("Executed project generation task id: " + taskId);
     }
 
     @GetMapping("/{taskId}/result")
-    public ResponseEntity<FileSystemResource> getResult(@PathVariable String taskId) {
+    public ResponseEntity<FileSystemResource> getResult(@PathVariable UUID taskId) {
         return taskService.getTaskResultFile(taskId);
     }
 

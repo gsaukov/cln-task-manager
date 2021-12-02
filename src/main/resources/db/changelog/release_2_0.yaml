@@ -9,7 +9,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: ID
-                  type: varchar(32)
+                  type: uuid
                   constraints:
                     primaryKey: true
                     nullable: false

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Service
@@ -17,7 +18,7 @@ public class CounterTaskExecutionServiceImpl implements CounterTaskExecutionServ
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    private final ConcurrentHashMap<String, CounterTaskExecutionState> stateMap = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<UUID, CounterTaskExecutionState> stateMap = new ConcurrentHashMap<>();
 
     private final CounterTaskExecutionStateSynchronizer synchronizer;
 
@@ -48,7 +49,7 @@ public class CounterTaskExecutionServiceImpl implements CounterTaskExecutionServ
     }
 
     @Override
-    public void stopTask(String taskId) {
+    public void stopTask(UUID taskId) {
         CounterTaskExecutionState runningTask = stateMap.get(taskId);
         //you can only stop RUNNING task and then update db accordingly.
         if(runningTask != null && runningTask.getStatus().compareAndSet(CounterTaskStatus.RUNNING, CounterTaskStatus.STOPPED)) {
@@ -57,7 +58,7 @@ public class CounterTaskExecutionServiceImpl implements CounterTaskExecutionServ
     }
 
     @Override
-    public void deleteTask(String taskId) {
+    public void deleteTask(UUID taskId) {
         //just set status to stopped.
         CounterTaskExecutionState runningTask = stateMap.get(taskId);
         if(runningTask != null) {
@@ -66,7 +67,7 @@ public class CounterTaskExecutionServiceImpl implements CounterTaskExecutionServ
     }
 
     @Override
-    public CounterTaskExecutionState getTaskState(String taskId) {
+    public CounterTaskExecutionState getTaskState(UUID taskId) {
         //i dont like to return mutable object from here but for simplicity let it be.
         return stateMap.get(taskId);
     }
@@ -75,7 +76,7 @@ public class CounterTaskExecutionServiceImpl implements CounterTaskExecutionServ
         synchronizer.synchronizeWithDB(task);
     }
 
-    private void sleep(String taskId) {
+    private void sleep(UUID taskId) {
         try {
             Thread.sleep(timeoutMs);
         } catch (InterruptedException e) {

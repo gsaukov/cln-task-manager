@@ -3,6 +3,7 @@ package com.celonis.challenge.model.countertask.entity;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import static java.time.LocalDateTime.now;
 import static java.util.UUID.randomUUID;
@@ -15,7 +16,7 @@ public abstract class BaseEntity implements Serializable {
 
     @Id
     @Column(name = "ID")
-    private String id;
+    private UUID id;
 
     @Version
     @Column(name = "VERSION")
@@ -35,12 +36,12 @@ public abstract class BaseEntity implements Serializable {
 
     protected BaseEntity() {
         if(id == null) {
-            id = uuid();
+            id = randomUUID();
         }
         createdAt = now();
     }
 
-    public String getId() {
+    public UUID getId() {
         return id;
     }
 
@@ -99,10 +100,6 @@ public abstract class BaseEntity implements Serializable {
 
     protected String defaultIfEmpty(String actualValue, String defaultValue) {
         return isEmpty(actualValue) ? defaultValue : actualValue;
-    }
-
-    protected static String uuid() {
-        return randomUUID().toString().replace("-", "").toUpperCase();
     }
 
 }
