@@ -106,7 +106,7 @@ Application is developed in "cloud ready" concepts and exposes all operational p
 |CLN_TM_CONNECTIONPOOL_MAX_LIFE_TIME|2000000|Max connection lifetime before reconnect|
 |CLN_TM_CONNECTION_TIMEOUT|30000|How long client will wait for a connection|
 |CLN_TM_THREAD_POOL_CORE_SIZE|8|@Async configuration bottom line|
-|CLN_TM_THREAD_POOL_MAX_SIZE|128|@Async configuration bottom max must be aligned with node resources|
+|CLN_TM_THREAD_POOL_MAX_SIZE|128|@Async configuration max, must be aligned with node resources|
 |CLN_TM_SERVER_PORT|80| Unsecure HTTP traffic |
 |CLN_TM_H2_ENABLED|true| Enables in memory h2 database, only for local development and testing|
 |CLN_TM_CORS_ALLOWED_ORIGIN|"*"| CORS configuration setup, single host|
