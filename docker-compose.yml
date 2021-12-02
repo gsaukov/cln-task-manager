@@ -5,6 +5,8 @@ services:
   cln-task-manager:
     image: cln-task-manager:1.0
     container_name: cln-task-manager
+    depends_on:
+      - cln-task-manager-db
     ports:
       - 80:80
     environment:

@@ -60,6 +60,7 @@ Or build/run it manually:
 ```sh
 You can clean build this server by executing:
 ./gradlew clean build
+To add path specific java use argument: -Dorg.gradle.java.home=<PATH TO JAVA>
 This will generate build folder with ./cln-task-manager/build/libs/CLN-TASK-MANAGER.jar
 To run:
 java -jar CLN-TASK-MANAGER.jar
