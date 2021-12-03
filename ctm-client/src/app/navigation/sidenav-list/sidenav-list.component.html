@@ -1,18 +1,8 @@
 <mat-nav-list>
-    <a mat-list-item routerLink="/prepaid-app" (click)="onSidenavClose()">
-        <span class="nav-caption">Deal</span>
+    <a mat-list-item routerLink="/counter-task" (click)="onSidenavClose()">
+        <span class="nav-caption">Counter Task</span>
     </a>
-    <a mat-list-item routerLink="/deal-history-app" (click)="onSidenavClose()">
-        <span class="nav-caption">History</span>
+    <a mat-list-item routerLink="/project-generation-task" (click)="onSidenavClose()">
+        <span class="nav-caption">Project Generation Task</span>
     </a>
-    <a mat-list-item routerLink="/multy-deal-app" (click)="onSidenavClose()">
-      <span class="nav-caption">Multy-Deal</span>
-    </a>
-    <mat-list-item [matMenuTriggerFor]="menu">
-        <a matline>Analytics</a>
-    </mat-list-item>
-    <mat-menu #menu="matMenu">
-      <button mat-menu-item (click)="onSidenavClose()">Heat</button>
-      <button mat-menu-item (click)="onSidenavClose()">Scan</button>
-    </mat-menu>
 </mat-nav-list>
