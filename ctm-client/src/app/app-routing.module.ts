@@ -6,7 +6,7 @@ import {ProjectGenerationTaskAppComponent} from "./tasks-app/project-generation-
 
 const routes: Routes = [
   {path: '', component: SiteLayoutComponent, children: [
-    { path: '', redirectTo: '/prepaid-app', pathMatch: 'full' },
+    { path: '', redirectTo: '/counter-task', pathMatch: 'full' },
     { path: 'counter-task', component: CounterTaskAppComponent},
     { path: 'project-generation-task', component: ProjectGenerationTaskAppComponent},
   ]}

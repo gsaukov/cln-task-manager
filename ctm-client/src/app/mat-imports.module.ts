@@ -12,7 +12,6 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatMenuModule} from "@angular/material/menu";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatPaginatorModule} from "@angular/material/paginator";
-import {CurrencyPipe} from "@angular/common";
 
 @NgModule({
   imports: [
@@ -47,6 +46,6 @@ import {CurrencyPipe} from "@angular/common";
     MatSidenavModule,
     MatPaginatorModule
   ],
-  providers: [CurrencyPipe]
+  providers: []
 })
 export class MatImportsModule { }

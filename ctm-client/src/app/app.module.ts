@@ -10,6 +10,7 @@ import {AppRoutingModule} from "./app-routing.module";
 import { CounterTaskAppComponent } from './tasks-app/counter-task-app/counter-task-app.component';
 import { ProjectGenerationTaskAppComponent } from './tasks-app/project-generation-task-app/project-generation-task-app.component';
 import {MatImportsModule} from "./mat-imports.module";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import {MatImportsModule} from "./mat-imports.module";
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     MatImportsModule
   ],
