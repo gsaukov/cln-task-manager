@@ -16,4 +16,17 @@ export class CounterTaskRestService {
   getCounterTask(taskId: string): Observable<CounterTask> {
     return this.http.get<CounterTask>(`/api/v1/countertasks/${taskId}`)
   }
+
+  executeCounterTask(taskId: string) {
+    return this.http.post(`/api/v1/countertasks/${taskId}/execute`, null)
+  }
+
+  stopCounterTask(taskId: string) {
+    return this.http.post(`/api/v1/countertasks/${taskId}/stop`, null)
+  }
+
+  deleteCounterTask(taskId: string) {
+    return this.http.delete(`/api/v1/countertasks/${taskId}`)
+  }
+
 }
