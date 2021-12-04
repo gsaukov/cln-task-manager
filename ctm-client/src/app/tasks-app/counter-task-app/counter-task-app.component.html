@@ -1,6 +1,6 @@
 <div class="deal-history">
-  <app-counter-task-menu></app-counter-task-menu>
-  <app-counter-task-table [dataSource]="counterTasks"></app-counter-task-table>
-<!--  <app-counter-task-pagination [response]="dealHistoryResponse"></app-counter-task-pagination>-->
+  <app-counter-task-menu (submittedNew)="refreshCounterTasksTable()"></app-counter-task-menu>
+  <app-counter-task-table [data]="counterTasks" (actionMade)="refreshCounterTasksTable()"></app-counter-task-table>
+<!--  <app-counter-task-pagination [response]="counterTasks"></app-counter-task-pagination>-->
 </div>
 

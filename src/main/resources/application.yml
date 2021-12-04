@@ -33,7 +33,7 @@ management:
         include: "*" #cluster health probe and discovery.
 clnTaskManager:
   h2Enabled: ${CLN_TM_H2_ENABLED:true}
-  cors.allowedOrigin: ${CLN_TM_CORS_ALLOWED_ORIGIN:"*"}
+  cors.allowedOrigin: ${CLN_TM_CORS_ALLOWED_ORIGIN:*}
   authheader.disabled: ${CLN_TM_AUTH_HEADER_DISABLED:true}
   counterTask:
     timeoutMs: ${CLN_TM_COUNTER_TASK_TIMEOUT_MS:1000}

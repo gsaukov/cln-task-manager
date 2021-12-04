@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {AbstractControl, FormControl, FormGroup, ValidatorFn, Validators} from "@angular/forms";
 import {CounterTaskRestService} from "../service/rest/counter-task-rest.service";
 import {CounterTask, CounterTaskRequest} from "../service/rest/model/counterTask";
@@ -9,7 +9,7 @@ import {CounterTask, CounterTaskRequest} from "../service/rest/model/counterTask
   styleUrls: ['./counter-task-menu.component.scss']
 })
 export class CounterTaskMenuComponent implements OnInit {
-
+  @Output() submittedNew = new EventEmitter()
 
   form: FormGroup
 
@@ -31,12 +31,18 @@ export class CounterTaskMenuComponent implements OnInit {
         x: this.form.value.x,
         y: this.form.value.y,
       };
-      this.counterTaskService.submitNewCounterTask(request);
-
+      this.counterTaskService.submitNewCounterTask(request).subscribe(() => {
+        this.emitSubmittedNew()
+      });
     }
   }
 
-  // i dont like this validator but i dont know how to make it any better
+  emitSubmittedNew() {
+    this.submittedNew.emit();
+  }
+
+
+  // i dont like this validation below but I dont know how to make it any better
   isXGreaterOrEqualY(): ValidatorFn {
     return (control: AbstractControl): {[key: string]: any} | null => {
       let isXGreaterOrEqualY

@@ -12,6 +12,7 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatMenuModule} from "@angular/material/menu";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatPaginatorModule} from "@angular/material/paginator";
+import {MatSortModule} from "@angular/material/sort";
 
 @NgModule({
   imports: [
@@ -20,6 +21,7 @@ import {MatPaginatorModule} from "@angular/material/paginator";
     MatStepperModule,
     MatCardModule,
     MatTableModule,
+    MatSortModule,
     MatSelectModule,
     MatCheckboxModule,
     MatToolbarModule,
@@ -36,6 +38,7 @@ import {MatPaginatorModule} from "@angular/material/paginator";
     MatStepperModule,
     MatCardModule,
     MatTableModule,
+    MatSortModule,
     MatSelectModule,
     MatCheckboxModule,
     MatToolbarModule,

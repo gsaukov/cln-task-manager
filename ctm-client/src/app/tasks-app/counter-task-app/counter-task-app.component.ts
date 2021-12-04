@@ -16,6 +16,13 @@ export class CounterTaskAppComponent implements OnInit {
   constructor(private counterTaskRestService: CounterTaskRestService,
               private router: Router,
               private route: ActivatedRoute ) {
+    this.refreshCounterTasksTable()
+  }
+
+  ngOnInit() {
+  }
+
+  refreshCounterTasksTable() {
     this.route.queryParams.subscribe(() => {
       this.counterTaskRestService.getCounterTasks().subscribe( response => {
         this.counterTasks = response
@@ -25,9 +32,6 @@ export class CounterTaskAppComponent implements OnInit {
         // this.paginationComponent.emitPaginatorData(page, response.totalElements)
       })
     })
-  }
-
-  ngOnInit() {
   }
 
 }

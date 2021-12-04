@@ -16,6 +16,7 @@ import { CounterTaskTableComponent } from './tasks-app/counter-task-app/counter-
 import { CounterTaskPaginationComponent } from './tasks-app/counter-task-app/counter-task-pagination/counter-task-pagination.component';
 import {HttpClientModule} from "@angular/common/http";
 import {DatePipe} from "@angular/common";
+import {ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import {DatePipe} from "@angular/common";
     BrowserModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    ReactiveFormsModule,
     AppRoutingModule,
     MatImportsModule
   ],

@@ -7,3 +7,9 @@ export interface CounterTask {
   createdAt: Date
   updateAt: Date
 }
+
+export interface CounterTaskRequest {
+  name: string
+  x: number
+  y: number
+}
