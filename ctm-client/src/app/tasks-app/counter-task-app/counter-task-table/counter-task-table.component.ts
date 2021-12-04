@@ -1,5 +1,6 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {CounterTask} from "../service/rest/model/counterTask";
+import {CounterTaskRestService} from "../service/rest/counter-task-rest.service";
 
 @Component({
   selector: 'app-counter-task-table',
@@ -7,23 +8,44 @@ import {CounterTask} from "../service/rest/model/counterTask";
   styleUrls: ['./counter-task-table.component.scss']
 })
 export class CounterTaskTableComponent implements OnInit {
+  @Output() actionMade = new EventEmitter()
   @Input() dataSource: CounterTask[]
   columnsToDisplay = ['taskId', 'name', 'x', 'y', 'status', 'updateAt', 'actions']
 
-  constructor() { }
+  constructor(private taskService: CounterTaskRestService) {
+  }
 
   ngOnInit(): void {
   }
 
-  deleteCounterTask(id:string) {
-
+  executeCounterTask(id: string) {
+    this.taskService.executeCounterTask(id).subscribe(
+      async () => {
+      //execution status will be updated in database asynchronously so we need wait
+      await this.delay(1000)
+      this.emitActionMade()
+    })
   }
 
-  executeCounterTask(id:string) {
-
+  stopCounterTask(id: string) {
+    this.taskService.stopCounterTask(id).subscribe(
+      () => {
+        this.emitActionMade()
+      }
+    )
   }
 
-  stopCounterTask(id:string) {
-    
+  deleteCounterTask(id: string) {
+    this.taskService.deleteCounterTask(id).subscribe(() => {
+      this.emitActionMade()
+    })
+  }
+
+  emitActionMade() {
+    this.actionMade.emit();
+  }
+
+  delay(ms: number) {
+    return new Promise( resolve => setTimeout(resolve, ms) );
   }
 }
