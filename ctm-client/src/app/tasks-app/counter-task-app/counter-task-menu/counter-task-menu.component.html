@@ -1,1 +1,22 @@
-<p>counter-task-menu works!</p>
+<mat-card class="card-wrapper">
+  <mat-card-content>
+    <form id="counterTaskForm" [formGroup]="form">
+      <mat-form-field color="accent" class="form-field" appearance="fill">
+        <mat-label>Task name</mat-label>
+        <input matInput color="accent" placeholder="MyTask" autocomplete="off" formControlName="name">
+      </mat-form-field>
+      <mat-form-field color="accent" class="form-field" appearance="fill">
+        <mat-label>X</mat-label>
+        <input matInput type="number" min="0" autocomplete="off" formControlName="x">
+      </mat-form-field>
+      <mat-form-field color="accent" class="form-field" appearance="fill">
+        <mat-label>Y</mat-label>
+        <input matInput type="number" min="1" autocomplete="off" formControlName="y">
+        <span *ngIf="form.get('y')?.invalid && form.get('y')?.touched">
+          <span class="helper-text red-text" *ngIf="form.get('y')?.hasError('XGreaterOrEqualY')">Y must be greater than X</span>
+        </span>
+      </mat-form-field>
+      <button mat-raised-button color="accent" (click)="onSubmit()" [disabled]="form.disabled||form.invalid">Submit</button>
+    </form>
+  </mat-card-content>
+</mat-card>
