@@ -8,11 +8,22 @@ import {CounterTask} from "../service/rest/model/counterTask";
 })
 export class CounterTaskTableComponent implements OnInit {
   @Input() dataSource: CounterTask[]
-  columnsToDisplay = ['taskId', 'name', 'x', 'y', 'status', 'updateAt']
+  columnsToDisplay = ['taskId', 'name', 'x', 'y', 'status', 'updateAt', 'actions']
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  deleteCounterTask(id:string) {
+
+  }
+
+  executeCounterTask(id:string) {
+
+  }
+
+  stopCounterTask(id:string) {
+    
+  }
 }
