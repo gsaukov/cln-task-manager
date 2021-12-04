@@ -1,6 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {CounterTask} from "../service/rest/model/counterTask";
-import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-counter-task-table',

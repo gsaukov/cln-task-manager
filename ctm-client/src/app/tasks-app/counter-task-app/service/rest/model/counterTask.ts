@@ -7,7 +7,3 @@ export interface CounterTask {
   createdAt: Date
   updateAt: Date
 }
-
-export interface CounterTasks {
-  tasks: CounterTask[]
-}
