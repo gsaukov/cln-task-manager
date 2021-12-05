@@ -1,3 +1,6 @@
+## 1.1
+ - [TASK-5] - Ctm-client front end challenge, CORS fix, doc updates
+
 ## 1.0
  - [TASK-4] - Containerization, readme, more tests, release version. 
 
