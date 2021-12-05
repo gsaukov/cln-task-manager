@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import {AppComponent} from './app.component';
 import {SiteLayoutComponent} from "./navigation/site-layout/site-layout.component";
+import {PageNotFoundComponent} from "./navigation/page-not-found/page-not-found.component";
+import {CounterDirective} from "./navigation/page-not-found/counter.directive";
 import {HeaderComponent} from "./navigation/header/header.component";
 import {SidenavListComponent} from "./navigation/sidenav-list/sidenav-list.component";
 import {TasksAppComponent} from './tasks-app/tasks-app.component';
@@ -22,6 +24,8 @@ import {HeaderInterceptor} from "./header-interceptor";
   declarations: [
     AppComponent,
     SiteLayoutComponent,
+    PageNotFoundComponent,
+    CounterDirective,
     HeaderComponent,
     SidenavListComponent,
     TasksAppComponent,

@@ -11,7 +11,7 @@ import {CounterTask} from "../../service/rest/model/counterTask";
 export class ExecutionStateComponent implements OnInit, OnDestroy {
 
   @Input() counterTask: CounterTask
-  sseEventsConnection: Subscription
+  sseEventsConnection: Subscription = Subscription.EMPTY
   isConsuming: boolean = false
   progress: number = 0
 
@@ -48,8 +48,6 @@ export class ExecutionStateComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if(this.sseEventsConnection) {
-      this.sseEventsConnection.unsubscribe()
-    }
+    this.sseEventsConnection.unsubscribe()
   }
 }

@@ -25,11 +25,9 @@ export class CounterTaskAppComponent implements OnInit {
   refreshCounterTasksTable() {
     this.route.queryParams.subscribe(() => {
       this.counterTaskRestService.getCounterTasks().subscribe( response => {
+        //actually fixing my bug from the server where I return date as yyyy-MM-dd HH:mm:ss and correct for JS is yyyy-MM-ddTHH:mm:ss
+        response.forEach(r => r.updateAt = new Date(r.updateAt.toString().replace(' ', 'T')))
         this.counterTasks = response
-        // this.startingDealNumber = filterAndPage.page * filterAndPage.size
-        // let page: DealPage = {}
-        // page = {page: filterAndPage.page, size: filterAndPage.size}
-        // this.paginationComponent.emitPaginatorData(page, response.totalElements)
       })
     })
   }
