@@ -14,9 +14,11 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { CounterTaskMenuComponent } from './tasks-app/counter-task-app/counter-task-menu/counter-task-menu.component';
 import { CounterTaskTableComponent } from './tasks-app/counter-task-app/counter-task-table/counter-task-table.component';
 import { CounterTaskPaginationComponent } from './tasks-app/counter-task-app/counter-task-pagination/counter-task-pagination.component';
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {DatePipe} from "@angular/common";
 import {ReactiveFormsModule} from "@angular/forms";
+import { ExecutionStateComponent } from './tasks-app/counter-task-app/counter-task-table/execution-state/execution-state.component';
+import {HeaderInterceptor} from "./header-interceptor";
 
 @NgModule({
   declarations: [
@@ -30,6 +32,7 @@ import {ReactiveFormsModule} from "@angular/forms";
     CounterTaskMenuComponent,
     CounterTaskTableComponent,
     CounterTaskPaginationComponent,
+    ExecutionStateComponent,
   ],
   imports: [
     BrowserModule,
@@ -39,7 +42,13 @@ import {ReactiveFormsModule} from "@angular/forms";
     AppRoutingModule,
     MatImportsModule
   ],
-  providers: [DatePipe],
+  providers: [
+    DatePipe,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HeaderInterceptor,
+      multi: true,
+    }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

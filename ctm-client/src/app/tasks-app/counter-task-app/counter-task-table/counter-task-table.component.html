@@ -32,6 +32,13 @@
     <td mat-cell *matCellDef="let element"> {{element.updateAt | date:'dd.MM.yyyy hh:mm'}} </td>
   </ng-container>
 
+  <ng-container matColumnDef="state">
+    <th mat-header-cell *matHeaderCellDef> State </th>
+    <td mat-cell *matCellDef="let element">
+      <app-execution-state [counterTask]="element"></app-execution-state>
+    </td>
+  </ng-container>
+
   <ng-container matColumnDef="actions">
     <th mat-header-cell *matHeaderCellDef> Actions </th>
     <td mat-cell *matCellDef="let element">

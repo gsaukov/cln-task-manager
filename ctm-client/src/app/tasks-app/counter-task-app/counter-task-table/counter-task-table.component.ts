@@ -21,7 +21,7 @@ export class CounterTaskTableComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   dataSource: MatTableDataSource<CounterTask>
-  columnsToDisplay = ['taskId', 'name', 'x', 'y', 'status', 'updateAt', 'actions']
+  columnsToDisplay = ['taskId', 'name', 'x', 'y', 'status', 'updateAt', 'state', 'actions']
 
   constructor(private taskService: CounterTaskRestService) {
   }
