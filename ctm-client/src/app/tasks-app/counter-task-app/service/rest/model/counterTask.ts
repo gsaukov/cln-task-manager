@@ -8,15 +8,10 @@ export interface CounterTask {
   updateAt: Date
 }
 
-export interface CounterTaskRequest {
+export interface CounterTaskSubmitRequest {
   name: string
   x: number
   y: number
-}
-
-export interface CounterTaskExecution {
-  id: number
-  data: CounterTaskExecutionState
 }
 
 export interface CounterTaskExecutionState {

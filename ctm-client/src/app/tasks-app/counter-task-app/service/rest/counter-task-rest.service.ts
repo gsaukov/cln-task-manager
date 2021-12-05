@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from '@angular/common/http';
 import {Observable} from "rxjs";
-import {CounterTask, CounterTaskExecutionState, CounterTaskRequest} from "./model/counterTask";
+import {CounterTask, CounterTaskExecutionState, CounterTaskSubmitRequest} from "./model/counterTask";
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +17,7 @@ export class CounterTaskRestService {
     return this.http.get<CounterTask>(`/api/v1/countertasks/${taskId}`)
   }
 
-  submitNewCounterTask(task: CounterTaskRequest): Observable<CounterTask> {
+  submitNewCounterTask(task: CounterTaskSubmitRequest): Observable<CounterTask> {
     return this.http.post<CounterTask>('/api/v1/countertasks/', task)
   }
 

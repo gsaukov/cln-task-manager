@@ -19,6 +19,10 @@ import {MatTableDataSource} from "@angular/material/table";
 export class CounterTaskTableComponent implements OnInit {
   @Output() actionMade = new EventEmitter()
   @ViewChild(MatSort) sort: MatSort;
+  @Input() set data(data: CounterTask[]) {
+    this.dataSource = new MatTableDataSource(data);
+    this.dataSource.sort = this.sort;
+  }
 
   dataSource: MatTableDataSource<CounterTask>
   columnsToDisplay = ['taskId', 'name', 'x', 'y', 'status', 'updateAt', 'state', 'actions']
@@ -29,15 +33,10 @@ export class CounterTaskTableComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  @Input() set data(data: CounterTask[]) {
-    this.dataSource = new MatTableDataSource(data);
-    this.dataSource.sort = this.sort;
-  }
-
   executeCounterTask(id: string) {
     this.taskService.executeCounterTask(id).subscribe(
       async () => {
-      //execution status will be updated in database asynchronously so we need wait
+      //execution status will be updated in database asynchronously so we need to wait
       await this.delay(1000)
       this.emitActionMade()
     })

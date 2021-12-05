@@ -1,7 +1,7 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {AbstractControl, FormControl, FormGroup, ValidatorFn, Validators} from "@angular/forms";
 import {CounterTaskRestService} from "../service/rest/counter-task-rest.service";
-import {CounterTask, CounterTaskRequest} from "../service/rest/model/counterTask";
+import {CounterTaskSubmitRequest} from "../service/rest/model/counterTask";
 
 @Component({
   selector: 'app-counter-task-menu',
@@ -26,7 +26,7 @@ export class CounterTaskMenuComponent implements OnInit {
   onSubmit() {
     this.revalidateForm()
     if(this.form.valid){
-      const request:CounterTaskRequest = {
+      const request:CounterTaskSubmitRequest = {
         name: this.form.value.name,
         x: this.form.value.x,
         y: this.form.value.y,
@@ -40,7 +40,6 @@ export class CounterTaskMenuComponent implements OnInit {
   emitSubmittedNew() {
     this.submittedNew.emit();
   }
-
 
   // i dont like this validation below but I dont know how to make it any better
   isXGreaterOrEqualY(): ValidatorFn {

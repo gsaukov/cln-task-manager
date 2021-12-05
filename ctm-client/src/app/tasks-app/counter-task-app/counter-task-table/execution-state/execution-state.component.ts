@@ -30,7 +30,7 @@ export class ExecutionStateComponent implements OnInit, OnDestroy {
     this.sseEventsConnection = this.counterTaskService.getTaskExecutionState(this.counterTask.id).subscribe(
       state => {
         this.progress = Math.round(((state.x - this.counterTask.x)/(state.y - this.counterTask.x))*100)
-        console.log(state)
+        // console.log(state)
         this.changeDetectorRef.detectChanges()
       },
       error => {
@@ -43,14 +43,13 @@ export class ExecutionStateComponent implements OnInit, OnDestroy {
     )
   }
 
+  isRunning():boolean {
+    return this.counterTask.status != 'RUNNING'
+  }
+
   ngOnDestroy(): void {
     if(this.sseEventsConnection) {
       this.sseEventsConnection.unsubscribe()
     }
-  }
-
-
-  isRunning():boolean {
-    return this.counterTask.status != 'RUNNING'
   }
 }
