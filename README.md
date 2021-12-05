@@ -1,6 +1,6 @@
 # Cln-task-manager - Asynchronous task manager, challenge application.
 
-Task-manager is a SoringBoot application that is intended to allow users create, easily manage and execute tasks of two kind: ProjectGeneration and Counter.  
+Task-manager is a SpringBoot application that is intended to allow users create, easily manage and execute tasks of two kind: ProjectGeneration and Counter.  
 Task-manager was deeply analysed and reengineered from an existing platform, inheriting all its core features and interfaces expanding it with new capabilities and technologies.  
 Application was developed under influence of following factors: 
 * Clean, homogenous, maintainable code<sup>*</sup>.
@@ -76,7 +76,7 @@ Application is fully compliant with AWS cloud and its infrastructure, therefore 
 To containerize application manually:
 
 Clean build this server by executing: `./gradlew clean build` This will generate build folder with ./cln-task-manager/build/libs/CLN-TASK-MANAGER.jar  
-To build docker image run: `docker build --tag cln-task-manager:1.0 .`  
+To build docker image run: `docker build --tag cln-task-manager:1.1 .`  
 To run docker image in container using composer:`docker-compose -f ./docker-compose.yml up -d cln-task-manager`
 
 ## Testing
@@ -110,7 +110,7 @@ Application is developed in "cloud ready" concepts and exposes all operational p
 |CLN_TM_THREAD_POOL_MAX_SIZE|128|@Async configuration max, must be aligned with node resources|
 |CLN_TM_SERVER_PORT|80| Unsecure HTTP traffic |
 |CLN_TM_H2_ENABLED|true| Enables in memory h2 database, only for local development and testing|
-|CLN_TM_CORS_ALLOWED_ORIGIN|"*"| CORS configuration setup, single host|
+|CLN_TM_CORS_ALLOWED_ORIGIN|*| CORS configuration setup, single host|
 |CLN_TM_AUTH_HEADER_DISABLED|true|Disable custom auth header filter, disabled for local setup|
 |CLN_TM_COUNTER_TASK_TIMEOUT_MS|1000| Counter task increment period|
 |CLN_TM_COUNTER_TASK_EMITTER_DURATION_MS|60000| Life time period for user connection to consume task execution SSE events|
