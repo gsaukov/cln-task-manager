@@ -13,3 +13,16 @@ export interface CounterTaskRequest {
   x: number
   y: number
 }
+
+export interface CounterTaskExecution {
+  id: number
+  data: CounterTaskExecutionState
+}
+
+export interface CounterTaskExecutionState {
+  id: string
+  x: number
+  y: number
+  status: string
+  running: boolean
+}

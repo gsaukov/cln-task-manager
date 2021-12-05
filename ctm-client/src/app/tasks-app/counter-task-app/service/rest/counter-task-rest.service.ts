@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from '@angular/common/http';
 import {Observable} from "rxjs";
-import {CounterTask, CounterTaskRequest} from "./model/counterTask";
+import {CounterTask, CounterTaskExecutionState, CounterTaskRequest} from "./model/counterTask";
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +31,19 @@ export class CounterTaskRestService {
 
   deleteCounterTask(taskId: string) {
     return this.http.delete(`/api/v1/countertasks/${taskId}`)
+  }
+
+  getTaskExecutionState(taskId: string): Observable<CounterTaskExecutionState> {
+    return new Observable<CounterTaskExecutionState>(observer => {
+      const eventSource = new EventSource(`/api/v1/countertasks/${taskId}/taskstate`)
+      eventSource.onmessage = x => {
+        observer.next(JSON.parse(x.data))
+      }
+      eventSource.onerror = x => observer.error(x)
+      return () => {
+        eventSource.close()
+      }
+    })
   }
 
 }
