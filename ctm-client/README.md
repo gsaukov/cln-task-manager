@@ -53,3 +53,6 @@ ng serve --proxy-config proxy.conf.json
 this will start client on http://localhost:4200/
 
 Make sure **cln-task-manager** application is running and inlined with **[Proxy file](./proxy.conf.json)** to receive calls from Front-End client.
+  
+Georgy Saukov,  
+Munich, December 2021.
