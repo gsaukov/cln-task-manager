@@ -1,0 +1,19 @@
+.execution-box-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.execution-box {
+  height: 0.8em;
+  width: 0.8em;
+  border-radius: 0.1em;
+  margin: 0.1em;
+}
+
+.execution-box-active {
+  background-color: #0082e6;
+}
+
+.execution-box-inactive {
+  background-color: #e8e8e8;
+}

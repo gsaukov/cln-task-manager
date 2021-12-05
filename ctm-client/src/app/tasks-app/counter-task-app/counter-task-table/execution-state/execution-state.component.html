@@ -1,0 +1,20 @@
+<div *ngIf="isConsuming; then executionBox; else subscribeControls"></div>
+
+<ng-template #subscribeControls>
+  <button mat-button color="warn" (click)="subscribeToExecutionEvents()" [disabled]="isRunning()">SSE &#9673;</button>
+</ng-template>
+<ng-template #executionBox>
+  <div class="execution-box-container">
+    <div class="execution-box" [ngClass]="executionBoxClass(10)"></div>
+    <div class="execution-box" [ngClass]="executionBoxClass(20)"></div>
+    <div class="execution-box" [ngClass]="executionBoxClass(30)"></div>
+    <div class="execution-box" [ngClass]="executionBoxClass(40)"></div>
+    <div class="execution-box" [ngClass]="executionBoxClass(50)"></div>
+    <div class="execution-box" [ngClass]="executionBoxClass(60)"></div>
+    <div class="execution-box" [ngClass]="executionBoxClass(70)"></div>
+    <div class="execution-box" [ngClass]="executionBoxClass(80)"></div>
+    <div class="execution-box" [ngClass]="executionBoxClass(90)"></div>
+    <div class="execution-box" [ngClass]="executionBoxClass(100)"></div>
+    <div>{{'&nbsp;' + progress + ' %'}}</div>
+  </div>
+</ng-template>
