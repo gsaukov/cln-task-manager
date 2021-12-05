@@ -13,7 +13,6 @@ import {MatImportsModule} from "./mat-imports.module";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { CounterTaskMenuComponent } from './tasks-app/counter-task-app/counter-task-menu/counter-task-menu.component';
 import { CounterTaskTableComponent } from './tasks-app/counter-task-app/counter-task-table/counter-task-table.component';
-import { CounterTaskPaginationComponent } from './tasks-app/counter-task-app/counter-task-pagination/counter-task-pagination.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {DatePipe} from "@angular/common";
 import {ReactiveFormsModule} from "@angular/forms";
@@ -31,7 +30,6 @@ import {HeaderInterceptor} from "./header-interceptor";
     ProjectGenerationTaskAppComponent,
     CounterTaskMenuComponent,
     CounterTaskTableComponent,
-    CounterTaskPaginationComponent,
     ExecutionStateComponent,
   ],
   imports: [
