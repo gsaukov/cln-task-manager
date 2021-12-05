@@ -1,27 +1,55 @@
-# CtmClient
+# Ctm-client - Front end challenge application.
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.0.4.
+### Client application & design.
 
-## Development server
+Ctm-client application follows SPA design patterns and has tasks table as its core design element. It is integrated into side menu navigation that allows switching between different applications. As of now only **Counter task** application is implement. **Project generation** application page has only development comments. 
+For the sake of time saving I have stepped away from some design requirements like Stepper for task creation. I have also enhanced Counter tasks table with task execution progress async controls, to demonstrate Angular's, multy tasking capabilities.  
+And of course, there is a long TODO list to improve the client, however I believe that the core features are implemented and could be reused in future development tasks.  
+All in all I'm very satisfied with the results that were achieved in very dense timelines.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Client Features
 
-## Code scaffolding
+**Counter Tasks Main Page:**
+![](readme/CounterTaskDesign.png)
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+**Counter Task Controls:**  
+Run, Stop and Delete:  
+![](readme/TaskControlls.png)
 
-## Build
+**Subscribe to Execution State (SSE):**  
+If task is in RUNNING status you can subscribe to its execution progress.  
+![](readme/SubscribeToExecutionState.png)
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+**Execution State progress bar:**  
+You can now track the execution! 
+![](readme/ExecutionState.png)
 
-## Running unit tests
+**Custom page not found interceptor:**  
+Just try it!  
+![](readme/PageNotFound.png)
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+### Front End anatomy:
+* TypeScript/JavaScript - core programming language.
+* NPM - Package manager. Build automation.
+* Angular13 - front-end framework.
+* RxJS - Reactive/Asynchronous integration with backend. Observables, Subscriptions, Operators.
+* AngularMaterial - UI Components.
+* HTML5 - Animations, effects, validations.
 
-## Running end-to-end tests
+### Build/Run steps
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+You will need NODE, NPM, Angular CLI.
 
-## Further help
+You can import it into your IDE as gradle project so you can review source code build/test it using IDE.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Or build/run it manually:
+
+In client folder run:
+```sh
+npm install
+ng build --prod=true
+ng serve --proxy-config proxy.conf.json
+```
+this will start client on http://localhost:4200/
+
+Make sure **cln-task-manager** application is running and inlined with **[Proxy file](./proxy.conf.json)** to receive calls from Front-End client.
