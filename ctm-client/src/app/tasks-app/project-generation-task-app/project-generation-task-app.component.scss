@@ -1,0 +1,15 @@
+mat-card span, ol {
+  color: azure;
+  font-size: 1.5em;
+  letter-spacing: 2px;
+  font-weight: 300;
+}
+
+mat-card-content {
+  max-width: 80em;
+}
+
+mat-card-content, mat-card-title {
+  margin-left: 3em;
+  display: inline-block;
+}
