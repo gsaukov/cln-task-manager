@@ -70,7 +70,7 @@ public class CounterTask extends BaseEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId().hashCode());
+        return Objects.hash(getId());
     }
 
 }
