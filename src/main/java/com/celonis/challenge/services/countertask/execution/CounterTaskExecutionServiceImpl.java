@@ -32,7 +32,6 @@ public class CounterTaskExecutionServiceImpl implements CounterTaskExecutionServ
         CounterTaskExecutionState existingTask = stateMap.putIfAbsent(task.getId(), task);
         if (existingTask == null) {
             CounterTaskExecutionState runningTask = stateMap.get(task.getId());
-            updateTask(runningTask); //set state from ACTIVE to RUNNING in db potential optimistic locking if invoking delete/ stop.
             while(runningTask.isRunning()) {
                 if(runningTask.getX().get() >= runningTask.getY() &&
                         runningTask.getStatus().compareAndSet(CounterTaskStatus.RUNNING, CounterTaskStatus.FINISHED)) {

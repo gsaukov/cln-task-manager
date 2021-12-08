@@ -66,9 +66,11 @@ public class CounterTaskServiceImpl implements CounterTaskService {
     public void executeTask(UUID taskId) {
         CounterTask task = getTask(taskId);
         if (task.getStatus().equals(CounterTaskStatus.ACTIVE)) {
+            task.setStatus(CounterTaskStatus.RUNNING);
+            repository.saveAndFlush(task);
             executionService.executeTask(CounterTaskExecutionState.createRunningTask(task));
         } else {
-            logger.info("Task is " + taskId + " not in ACTIVE state");
+            throw new IllegalStateException("Task is " + taskId + " not in ACTIVE state");
         }
     }
 
