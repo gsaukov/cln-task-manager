@@ -3,6 +3,7 @@ package com.celonis.challenge.controllers;
 import com.celonis.challenge.exceptions.TaskExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -50,6 +51,13 @@ public class ErrorController {
         logger.error("Illegal processing state", e);
         return new ErrorResponse().addError("Illegal processing state")
                 .getResponse(HttpStatus.NOT_ACCEPTABLE);
+    }
+
+    @ExceptionHandler(OptimisticLockingFailureException.class)
+    public ResponseEntity<ErrorResponse> handleOptimisticLockingException(OptimisticLockingFailureException e) {
+        logger.error("Parallel processing exception, resource is locked.", e);
+        return new ErrorResponse().addError("Parallel processing exception, resource is locked.")
+                .getResponse(HttpStatus.LOCKED);
     }
 
     @ExceptionHandler(TaskExecutionException.class)
