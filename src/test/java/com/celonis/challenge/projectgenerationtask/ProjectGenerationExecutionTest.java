@@ -2,7 +2,6 @@ package com.celonis.challenge.projectgenerationtask;
 
 import com.celonis.challenge.controllers.projectgenerationtask.ProjectGenerationTaskController;
 import com.celonis.challenge.controllers.projectgenerationtask.ProjectGenerationTaskModel;
-import com.celonis.challenge.model.projectgenerationtask.ProjectGenerationTask;
 import com.celonis.challenge.model.projectgenerationtask.ProjectGenerationTaskRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

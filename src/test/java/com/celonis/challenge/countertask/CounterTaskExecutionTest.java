@@ -12,8 +12,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.http.MediaType;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.NoSuchElementException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -85,8 +93,7 @@ public class CounterTaskExecutionTest {
         assertTrue(stoppedTask.getX() < stoppedTask.getY());
 
         //when rerun
-        taskController.executeTask(task.getId());
-        Thread.sleep(10l);
+        assertThrows(IllegalStateException.class, () -> taskController.executeTask(task.getId()));
 
         //then check controller it must be still stopped X does not change
         var reranTask = taskController.getTask(task.getId());
@@ -113,6 +120,38 @@ public class CounterTaskExecutionTest {
         //then check executionService task is there in stopped state, for consumers.
         var stoppedTask = executionService.getTaskState(task.getId());
         assertEquals(CounterTaskStatus.STOPPED, stoppedTask.getStatus().get());
+    }
+
+    @Test
+    public void executeSingleWithMultipleThreadsAsync() throws InterruptedException {
+        //given
+        var concurrentThreads = 20;
+        var task = createTask(1, 100);
+        var lockCount = new AtomicInteger(0);
+        var illegalStateCount = new AtomicInteger(0);
+
+        //when
+        ExecutorService executorService = Executors.newFixedThreadPool(20);
+        for (int i = 0; i < concurrentThreads; i++) {
+            executorService.execute(() -> {
+                try{
+                    taskController.executeTask(task.getId());
+                } catch (OptimisticLockingFailureException e) {
+                    lockCount.incrementAndGet();
+                } catch (IllegalStateException e) {
+                    illegalStateCount.incrementAndGet();
+                }
+            });
+        }
+        executorService.awaitTermination(1000l, TimeUnit.MILLISECONDS);
+
+        //then only one thread has started and executed task
+        assertEquals(lockCount.get() + illegalStateCount.get(), concurrentThreads - 1);
+
+        var finishedTask = taskController.getTask(task.getId());
+        assertNotNull(finishedTask);
+        assertEquals(CounterTaskStatus.FINISHED.toString(), finishedTask.getStatus());
+        assertEquals(finishedTask.getX(), finishedTask.getY());
     }
 
     private CounterTaskModel createTask(int x, int y) {
