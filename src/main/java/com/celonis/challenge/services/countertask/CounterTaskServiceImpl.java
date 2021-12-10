@@ -58,7 +58,7 @@ public class CounterTaskServiceImpl implements CounterTaskService {
     @Override
     public void delete(UUID taskId) {
         CounterTask task = getTask(taskId);
-        executionService.deleteTask(task.getId()); //optimistic locking safe just sets status to stopped
+        executionService.deleteTask(task.getId());
         repository.deleteById(task.getId());
     }
 

@@ -1,6 +1,7 @@
 # Cln-task-manager - Asynchronous task manager, challenge application.
 
 Task-manager is a SpringBoot application that is intended to allow users create, easily manage and execute tasks of two kind: ProjectGeneration and Counter.  
+It is also a **statefull application**, executing task has a state in memory. It means that you cannot just scale it down. Intermediate state must be synchronized with the database and recovered for orphan running tasks upon startup.
 Task-manager was deeply analysed and reengineered from an existing platform, inheriting all its core features and interfaces expanding it with new capabilities and technologies.  
 Application was developed under influence of following factors: 
 * Clean, homogenous, maintainable code<sup>*</sup>.

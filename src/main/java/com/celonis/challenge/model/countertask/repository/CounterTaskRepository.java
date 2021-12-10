@@ -13,6 +13,6 @@ import java.util.UUID;
 @Repository
 public interface CounterTaskRepository extends JpaRepository<CounterTask, UUID>, JpaSpecificationExecutor<CounterTask> {
 
-    List<CounterTask> findAllByCreatedAtIsBefore(LocalDateTime date);
+    List<CounterTask> findAllByCreatedAtIsBefore(LocalDateTime date); //must be indexed
 
 }

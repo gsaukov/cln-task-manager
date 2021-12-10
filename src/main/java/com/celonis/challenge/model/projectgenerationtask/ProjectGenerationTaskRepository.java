@@ -10,6 +10,6 @@ import java.util.UUID;
 @Repository
 public interface ProjectGenerationTaskRepository extends JpaRepository<ProjectGenerationTask, UUID> {
 
-    List<ProjectGenerationTask> findAllByCreationDateIsBefore(Date date);
+    List<ProjectGenerationTask> findAllByCreationDateIsBefore(Date date); // must be indexed
 
 }
