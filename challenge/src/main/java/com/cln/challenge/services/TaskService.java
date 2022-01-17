@@ -1,9 +1,9 @@
-package com.celonis.challenge.services;
+package com.cln.challenge.services;
 
-import com.celonis.challenge.exceptions.InternalException;
-import com.celonis.challenge.exceptions.NotFoundException;
-import com.celonis.challenge.model.ProjectGenerationTask;
-import com.celonis.challenge.model.ProjectGenerationTaskRepository;
+import com.cln.challenge.exceptions.InternalException;
+import com.cln.challenge.exceptions.NotFoundException;
+import com.cln.challenge.model.ProjectGenerationTask;
+import com.cln.challenge.model.ProjectGenerationTaskRepository;
 import org.springframework.stereotype.Service;
 
 import java.net.URL;

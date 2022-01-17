@@ -1,34 +1,33 @@
-package com.cln.challenge.model;
+package com.cln.challenge.model.projectgenerationtask;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
+import java.util.UUID;
 
 @Entity
+@Access(AccessType.FIELD)
+@Table(name = "PROJECT_GENERATION_TASK")
 public class ProjectGenerationTask {
 
     @Id
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
-    private String id;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(name = "ID")
+    private UUID id;
 
+    @Column(name = "NAME")
     private String name;
 
+    @Column(name = "CREATION_DATE")
     private Date creationDate;
 
-    @JsonIgnore
+    @Column(name = "STORAGE_LOCATION")
     private String storageLocation;
 
-    public String getId() {
+    public UUID getId() {
         return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getName() {

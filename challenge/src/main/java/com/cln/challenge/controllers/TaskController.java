@@ -1,8 +1,8 @@
-package com.celonis.challenge.controllers;
+package com.cln.challenge.controllers;
 
-import com.celonis.challenge.model.ProjectGenerationTask;
-import com.celonis.challenge.services.FileService;
-import com.celonis.challenge.services.TaskService;
+import com.cln.challenge.model.ProjectGenerationTask;
+import com.cln.challenge.services.FileService;
+import com.cln.challenge.services.TaskService;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

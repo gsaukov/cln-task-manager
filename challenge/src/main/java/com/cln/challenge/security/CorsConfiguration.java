@@ -1,4 +1,4 @@
-package com.celonis.challenge.security;
+package com.cln.challenge.security;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;

@@ -1,8 +1,8 @@
-package com.celonis.challenge.services;
+package com.cln.challenge.services;
 
-import com.celonis.challenge.exceptions.InternalException;
-import com.celonis.challenge.model.ProjectGenerationTask;
-import com.celonis.challenge.model.ProjectGenerationTaskRepository;
+import com.cln.challenge.exceptions.InternalException;
+import com.cln.challenge.model.ProjectGenerationTask;
+import com.cln.challenge.model.ProjectGenerationTaskRepository;
 import org.apache.commons.io.IOUtils;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpHeaders;
