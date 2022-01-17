@@ -1,8 +1,8 @@
-# Celonis Programming Challenge
+# Cln Programming Challenge
 
 Dear applicant,
 
-Congratulations, you made it to the Celonis Programming Challenge!
+Congratulations, you made it to the Cln Programming Challenge!
 
 Ideally it should not take you more than 3-4 hours for the backend module, or 6 hours if you do the frontend as well, but feel free to work at your own pace.
 
