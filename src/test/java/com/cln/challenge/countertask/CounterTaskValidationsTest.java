@@ -19,7 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(controllers = CounterTaskController.class)
 public class CounterTaskValidationsTest {
 
-    private final String HEADER_NAME = "Celonis-Auth";
+    private final String HEADER_NAME = "Cln-Auth";
     private final String HEADER_VALUE = "totally_secret";
 
     @Autowired

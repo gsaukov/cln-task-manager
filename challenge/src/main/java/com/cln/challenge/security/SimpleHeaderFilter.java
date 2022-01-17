@@ -12,7 +12,7 @@ import java.io.IOException;
 @Component
 public class SimpleHeaderFilter extends OncePerRequestFilter {
 
-    private final String HEADER_NAME = "Celonis-Auth";
+    private final String HEADER_NAME = "Cln-Auth";
     private final String HEADER_VALUE = "totally_secret";
 
     @Override

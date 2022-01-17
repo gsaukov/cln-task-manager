@@ -18,7 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(controllers = ProjectGenerationTaskController.class)
 public class ProjectGenerationValidationsTest {
 
-    private final String HEADER_NAME = "Celonis-Auth";
+    private final String HEADER_NAME = "Cln-Auth";
     private final String HEADER_VALUE = "totally_secret";
 
     @Autowired

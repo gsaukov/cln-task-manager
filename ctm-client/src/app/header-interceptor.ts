@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 
 export class HeaderInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const clonedRequest = req.clone({ headers: req.headers.append('Celonis-Auth', 'totally_secret') });
+    const clonedRequest = req.clone({ headers: req.headers.append('Cln-Auth', 'totally_secret') });
     return next.handle(clonedRequest);
   }
 }

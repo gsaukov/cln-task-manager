@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class CounterTaskSSETest {
 
-    private final String HEADER_NAME = "Celonis-Auth";
+    private final String HEADER_NAME = "Cln-Auth";
     private final String HEADER_VALUE = "totally_secret";
 
     private final String SSE_DATA = "data:";
