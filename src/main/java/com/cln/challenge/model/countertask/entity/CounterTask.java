@@ -1,5 +1,7 @@
 package com.cln.challenge.model.countertask.entity;
 
+import com.cln.challenge.model.common.entity.BaseEntity;
+
 import javax.persistence.*;
 import java.util.*;
 

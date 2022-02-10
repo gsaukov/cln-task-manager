@@ -1,4 +1,4 @@
-package com.cln.challenge.model.countertask.converters;
+package com.cln.challenge.model.common.converters;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;

@@ -1,4 +1,4 @@
-package com.cln.challenge.model.countertask.entity;
+package com.cln.challenge.model.common.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
