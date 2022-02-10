@@ -54,7 +54,7 @@ public class GraphTaskServiceImpl implements GraphTaskService {
     public void stopTask(UUID taskId) {
     }
 
-    private GraphTask toTask(GraphTaskModel model) {
+    private GraphTask toTask(GraphTaskModel graphTaskModel) {
         return new GraphTask();
     }
 
