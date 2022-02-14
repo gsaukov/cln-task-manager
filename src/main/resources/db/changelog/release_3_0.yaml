@@ -1,0 +1,55 @@
+databaseChangeLog:
+
+  - changeSet:
+      id: managementBoardTableCreation
+      author: gsaukov
+      changes:
+        - createTable:
+            tableName: GRAPH_MANAGEMENT_BOARD
+            columns:
+              - column:
+                  name: ID
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    primaryKeyName: PK_GRAPH_MANAGEMENT_BOARD
+              - column:
+                  name: VERSION_ID
+                  type: uuid
+                  remarks: "Uniq version ID used fro version tree"
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    primaryKeyName: PK_GRAPH_MANAGEMENT_BOARD
+              - column:
+                  name: VERSION
+                  type: bigint
+                  remarks: "Spring optimistic locking"
+                  valueNumeric: 0
+                  constraints:
+                    nullable: false
+              - column:
+                  name: CREATED_AT
+                  type: datetime(3)
+                  valueDate: current_datetime
+                  constraints:
+                    nullable: false
+              - column:
+                  name: LAST_UPDATED_AT
+                  type: datetime(3)
+                  valueDate: current_datetime
+                  constraints:
+                    nullable: false
+              - column:
+                  name: CREATED_BY
+                  type: varchar(32)
+                  remarks: "Users that create tasks, taken from auth context"
+                  constraints:
+                    nullable: false
+              - column:
+                  name: LAST_UPDATED_BY
+                  type: varchar(32)
+                  remarks: "Users that update tasks, taken from auth context"
+                  constraints:
+                    nullable: false
