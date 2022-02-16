@@ -1,5 +1,59 @@
 databaseChangeLog:
 
+#  Sample organizational graph structures:
+#  http://www.speedesgroup.com/images/Orgchart_2.gif
+#  http://www.speedesgroup.com/images/Orgchart_3.jpg
+#  and https://towardsdatascience.com/recursive-sql-queries-with-postgresql-87e2a453f1b
+
+  - changeSet:
+      id: versionTableCreation
+      author: gsaukov
+      changes:
+        - createTable:
+            tableName: GRAPH_VERSION
+            columns:
+              - column:
+                  name: ID
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: PARENT_ID
+                  type: uuid
+                  remarks: "Recursive reference"
+              - column:
+                  name: VERSION
+                  type: bigint
+                  remarks: "Spring optimistic locking"
+                  valueNumeric: 0
+                  constraints:
+                    nullable: false
+              - column:
+                  name: CREATED_AT
+                  type: datetime(3)
+                  valueDate: current_datetime
+                  constraints:
+                    nullable: false
+              - column:
+                  name: LAST_UPDATED_AT
+                  type: datetime(3)
+                  valueDate: current_datetime
+                  constraints:
+                    nullable: false
+              - column:
+                  name: CREATED_BY
+                  type: varchar(32)
+                  remarks: "Users that create tasks, taken from auth context"
+                  constraints:
+                    nullable: false
+              - column:
+                  name: LAST_UPDATED_BY
+                  type: varchar(32)
+                  remarks: "Users that update tasks, taken from auth context"
+                  constraints:
+                    nullable: false
+
   - changeSet:
       id: managementBoardTableCreation
       author: gsaukov
@@ -17,7 +71,7 @@ databaseChangeLog:
               - column:
                   name: VERSION_ID
                   type: uuid
-                  remarks: "Uniq version ID used fro version tree"
+                  remarks: "Unique version ID used for version tree"
                   constraints:
                     primaryKey: true
                     nullable: false
