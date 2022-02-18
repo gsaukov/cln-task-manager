@@ -1,7 +1,7 @@
-package com.cln.challenge.controllers.graphtask;
+package com.cln.challenge.controllers.plantgraphtask;
 
-import com.cln.challenge.model.graphtask.entity.GraphTask;
-import com.cln.challenge.services.graphtask.GraphTaskService;
+import com.cln.challenge.model.plantgraphtask.entity.PlantGraphTask;
+import com.cln.challenge.services.plantgraphtask.PlantGraphTaskService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -13,32 +13,32 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/v1/graphtasks")
-public class GraphTaskController {
+@RequestMapping("/api/v1/plantgraphtasks")
+public class PlantGraphTaskController {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    private final GraphTaskService graphTaskService;
+    private final PlantGraphTaskService graphTaskService;
 
-    public GraphTaskController(GraphTaskService graphTaskService) {
+    public PlantGraphTaskController(PlantGraphTaskService graphTaskService) {
         this.graphTaskService = graphTaskService;
     }
 
     @GetMapping("/")
-    public List<GraphTaskModel> listTasks() {
+    public List<PlantGraphTaskModel> listTasks() {
         return graphTaskService.listTasks().stream()
                 .map(this::toModel).collect(Collectors.toList());
     }
 
     @PostMapping("/")
-    public GraphTaskModel createTask(@RequestBody @Valid GraphTaskModel ctTask) {
-        GraphTask createdTask = graphTaskService.createTask(ctTask);
+    public PlantGraphTaskModel createTask(@RequestBody @Valid PlantGraphTaskModel ctTask) {
+        PlantGraphTask createdTask = graphTaskService.createTask(ctTask);
         logger.info("Created graph task id: " + createdTask.getId());
         return toModel(createdTask);
     }
 
     @GetMapping("/{taskId}")
-    public GraphTaskModel getTask(@PathVariable UUID taskId) {
+    public PlantGraphTaskModel getTask(@PathVariable UUID taskId) {
         return toModel(graphTaskService.getTask(taskId));
     }
 
@@ -63,8 +63,8 @@ public class GraphTaskController {
     }
 
 
-    private GraphTaskModel toModel(GraphTask graphTask) {
-        GraphTaskModel model = new GraphTaskModel();
+    private PlantGraphTaskModel toModel(PlantGraphTask task) {
+        PlantGraphTaskModel model = new PlantGraphTaskModel();
         return model;
     }
 

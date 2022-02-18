@@ -1,8 +1,8 @@
-package com.cln.challenge.services.graphtask;
+package com.cln.challenge.services.plantgraphtask;
 
-import com.cln.challenge.controllers.graphtask.GraphTaskModel;
-import com.cln.challenge.model.graphtask.entity.GraphTask;
-import com.cln.challenge.model.graphtask.repository.GraphTaskRepository;
+import com.cln.challenge.controllers.plantgraphtask.PlantGraphTaskModel;
+import com.cln.challenge.model.plantgraphtask.entity.PlantGraphTask;
+import com.cln.challenge.model.plantgraphtask.repository.PlantGraphTaskRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -14,48 +14,48 @@ import java.util.UUID;
 
 @Service
 @Transactional
-public class GraphTaskServiceImpl implements GraphTaskService {
+public class PlantGraphTaskServiceImpl implements PlantGraphTaskService {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    private final GraphTaskRepository repository;
+    private final PlantGraphTaskRepository repository;
 
-    public GraphTaskServiceImpl(GraphTaskRepository repository) {
+    public PlantGraphTaskServiceImpl(PlantGraphTaskRepository repository) {
         this.repository = repository;
     }
 
     @Override
-    public GraphTask getTask(UUID taskId) {
+    public PlantGraphTask getTask(UUID taskId) {
         return repository.findById(taskId).orElseThrow(NoSuchElementException::new);
     }
 
     @Override
-    public List<GraphTask> listTasks() {
+    public List<PlantGraphTask> listTasks() {
         return repository.findAll();
     }
 
     @Override
-    public GraphTask createTask(GraphTaskModel model) {
+    public PlantGraphTask createTask(PlantGraphTaskModel model) {
         return repository.save(toTask(model));
     }
 
     @Override
     public void delete(UUID taskId) {
-        GraphTask task = getTask(taskId);
+        PlantGraphTask task = getTask(taskId);
         repository.deleteById(task.getId());
     }
 
     @Override
     public void executeTask(UUID taskId) {
-        GraphTask task = getTask(taskId);
+        PlantGraphTask task = getTask(taskId);
     }
 
     @Override
     public void stopTask(UUID taskId) {
     }
 
-    private GraphTask toTask(GraphTaskModel model) {
-        return new GraphTask();
+    private PlantGraphTask toTask(PlantGraphTaskModel model) {
+        return new PlantGraphTask();
     }
 
 }

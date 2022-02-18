@@ -1,20 +1,21 @@
-package com.cln.challenge.model.graphtask.entity;
+package com.cln.challenge.model.plantgraphtask.entity;
 
 import com.cln.challenge.model.common.entity.BaseEntity;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Access(AccessType.FIELD)
-@Table(name = "GRAPH_TASK")
-public class GraphTask extends BaseEntity {
+@Table(name = "PLANT_GRAPH_TASK")
+public class PlantGraphTask extends BaseEntity {
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        GraphTask counterTask = (GraphTask) o;
+        PlantGraphTask counterTask = (PlantGraphTask) o;
         return Objects.equals(getId(), counterTask.getId());
     }
 

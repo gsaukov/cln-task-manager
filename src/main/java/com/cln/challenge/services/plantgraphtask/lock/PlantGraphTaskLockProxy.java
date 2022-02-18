@@ -1,4 +1,4 @@
-package com.cln.challenge.services.graphtask.lock;
+package com.cln.challenge.services.plantgraphtask.lock;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -9,9 +9,9 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Order
 @Component
-public class GraphTaskLockProxy {
+public class PlantGraphTaskLockProxy {
 
-    @Around("@annotation(com.cln.challenge.services.graphtask.lock.GraphTaskLock)")
+    @Around("@annotation(com.cln.challenge.services.plantgraphtask.lock.PlantGraphTaskLock)")
     public Object lockTask(ProceedingJoinPoint pjp) throws Throwable {
         return null;
     }

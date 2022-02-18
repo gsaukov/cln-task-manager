@@ -1,4 +1,4 @@
-package com.cln.challenge.controllers.graphtask;
+package com.cln.challenge.controllers.plantgraphtask;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public class GraphTaskModel {
+public class PlantGraphTaskModel {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private UUID id;
