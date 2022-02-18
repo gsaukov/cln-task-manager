@@ -1,0 +1,60 @@
+databaseChangeLog:
+
+#  Sample organizational graph structures:
+#  http://www.speedesgroup.com/images/Orgchart_2.gif
+#  http://www.speedesgroup.com/images/Orgchart_3.jpg
+#  and https://towardsdatascience.com/recursive-sql-queries-with-postgresql-87e2a453f1b
+#  and http://lukaszbudnik.blogspot.com/2009/04/composite-pattern-and-jpas-recursive.html
+# https://en.wikibooks.org/wiki/Java_Persistence/Inheritance
+# https://en.wikibooks.org/wiki/Java_Persistence/OneToMany#Example_of_a_OneToMany_using_a_JoinTable_database
+# https://en.wikibooks.org/wiki/Java_Persistence/ElementCollection
+# https://docs.oracle.com/javaee/7/tutorial/persistence-entitygraphs002.htm
+
+  - changeSet:
+      id: plantVersionTableCreation
+      author: gsaukov
+      changes:
+        - createTable:
+            tableName: PLANT_VERSION
+            columns:
+              - column:
+                  name: ID
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: PARENT_ID
+                  type: uuid
+                  remarks: "Recursive reference"
+              - column:
+                  name: VERSION
+                  type: bigint
+                  remarks: "Spring optimistic locking"
+                  valueNumeric: 0
+                  constraints:
+                    nullable: false
+              - column:
+                  name: CREATED_AT
+                  type: datetime(3)
+                  valueDate: current_datetime
+                  constraints:
+                    nullable: false
+              - column:
+                  name: LAST_UPDATED_AT
+                  type: datetime(3)
+                  valueDate: current_datetime
+                  constraints:
+                    nullable: false
+              - column:
+                  name: CREATED_BY
+                  type: varchar(32)
+                  remarks: "Users that create tasks, taken from auth context"
+                  constraints:
+                    nullable: false
+              - column:
+                  name: LAST_UPDATED_BY
+                  type: varchar(32)
+                  remarks: "Users that update tasks, taken from auth context"
+                  constraints:
+                    nullable: false
