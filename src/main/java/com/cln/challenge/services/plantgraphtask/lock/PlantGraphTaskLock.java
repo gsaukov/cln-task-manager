@@ -15,9 +15,9 @@ public @interface PlantGraphTaskLock {
      */
 
     @AliasFor("name")
-    String[] value() default {};
+    String value() default "";
 
     @AliasFor("value")
-    String[] name() default {};
+    String name() default "";
 
 }
